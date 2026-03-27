@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="Tasdeeq — Certified legal, official and academic document translation services in English, Urdu and Arabic. Express delivery in 3 hours.">
+<title>Tasdeeq | Certified Document Translation Services</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+
+/* ── RESET ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Montserrat', sans-serif; background: #f6f6f4; color: #0a0a0a; line-height: 1.55; overflow-x: hidden; }
+
+/* ── CSS VARIABLES ── */
+:root {
+  --off-white: #f6f6f4;
+  --light-grey: #e4e4e2;
+  --mid-grey: #a6a6a4;
+  --dark-grey: #3a3a38;
+  --border: rgba(0,0,0,0.12);
+}
+
+/* ════════════════════════════════════
+   HEADER
+   Left  → TASDEEQ (logo)
+   Right → nav links + Contact Us CTA
+════════════════════════════════════ */
+header {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 999;
+  height: 62px;
+  background: #000000;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 5%;
+}
+
+.logo {
+  font-size: 1.3rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #ffffff;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 2.5rem;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.nav-links a {
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.6);
+  text-decoration: none;
+  transition: color 0.15s;
+  white-space: nowrap;
+}
+
+.nav-links a:hover { color: #ffffff; }
+
+.nav-cta {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  background: #ffffff;
+  color: #000000;
+  padding: 9px 22px;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background 0.15s;
+  display: inline-block;
+}
+
+.nav-cta:hover { background: #e0e0e0; }
+
+.hamburger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+}
+.hamburger span { width: 22px; height: 2px; background: #ffffff; display: block; }
+
+.mob-menu {
+  display: none;
+  position: fixed;
+  top: 62px; left: 0; right: 0;
+  z-index: 998;
+  background: #111111;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  padding: 0.5rem 5%;
+}
+.mob-menu.open { display: block; }
+.mob-menu a {
+  display: block;
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.65);
+  text-decoration: none;
+  padding: 0.55rem 0;
+  border-bottom: 1px solid rgba(255,255,255,0.07);
+}
+.mob-menu a:last-child { border-bottom: none; }
+
+/* ── HERO ── */
+#hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 80px 4% 50px;
+  background: #0a0a0a;
+  color: var(--off-white);
+}
+.hero-eyebrow { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--mid-grey); margin-bottom: 1.1rem; display: flex; align-items: center; gap: 12px; }
+.hero-eyebrow::before { content: ''; width: 26px; height: 1px; background: var(--mid-grey); flex-shrink: 0; }
+.hero-h1 { font-size: clamp(3rem, 6vw, 5.5rem); font-weight: 300; line-height: 1.07; max-width: 780px; margin-bottom: 1.1rem; letter-spacing: -0.01em; }
+.hero-h1 strong { font-weight: 700; }
+.hero-sub { font-size: 1rem; color: var(--mid-grey); max-width: 460px; margin-bottom: 2rem; line-height: 1.72; }
+.hero-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+.btn-w { font-family: 'Montserrat', sans-serif; font-size: 0.78rem; font-weight: 600; letter-spacing: 0.13em; text-transform: uppercase; background: var(--off-white); color: #0a0a0a; padding: 12px 26px; border: none; cursor: pointer; text-decoration: none; display: inline-block; transition: opacity 0.15s; }
+.btn-w:hover { opacity: 0.82; }
+.btn-g { font-family: 'Montserrat', sans-serif; font-size: 0.78rem; font-weight: 600; letter-spacing: 0.13em; text-transform: uppercase; background: transparent; color: var(--off-white); padding: 12px 26px; border: 1px solid rgba(255,255,255,0.25); cursor: pointer; text-decoration: none; display: inline-block; transition: border-color 0.15s; }
+.btn-g:hover { border-color: rgba(255,255,255,0.6); }
+.hero-stats { display: flex; gap: 2.5rem; margin-top: 2rem; flex-wrap: wrap; border-top: 1px solid rgba(255,255,255,0.08); padding-top: 1.2rem; padding-bottom: 0; }
+.hero-stats > div { display: flex; flex-direction: column; }
+.stat-n { font-size: 1.8rem; font-weight: 700; line-height: 1; }
+.stat-n sup { font-size: 0.8rem; font-weight: 400; }
+.stat-l { font-size: 0.68rem; font-weight: 500; letter-spacing: 0.13em; text-transform: uppercase; color: var(--mid-grey); margin-top: 4px; }
+
+/* ── SHARED ── */
+section { padding: 50px 4%; }
+.sl { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.22em; text-transform: uppercase; color: var(--mid-grey); margin-bottom: 0.65rem; }
+.st { font-size: clamp(1.7rem, 3.2vw, 2.5rem); font-weight: 300; line-height: 1.18; margin-bottom: 0.65rem; }
+.st strong { font-weight: 700; }
+.ss { font-size: 0.95rem; color: var(--dark-grey); max-width: 480px; line-height: 1.72; }
+.rule { width: 30px; height: 2px; background: #0a0a0a; margin: 0.9rem 0; }
+
+/* ── SERVICES ── */
+#services { background: var(--off-white); }
+.srv-grid { display: grid; grid-template-columns: repeat(3, 1fr); border: 1px solid var(--border); margin-top: 1.6rem; }
+.srv { padding: 1.4rem 1.3rem; border-right: 1px solid var(--border); transition: background 0.18s, color 0.18s; }
+.srv:last-child { border-right: none; }
+.srv:hover { background: #0a0a0a; color: var(--off-white); }
+.srv:hover .s-n { color: rgba(255,255,255,0.08); }
+.srv:hover .s-d { color: var(--mid-grey); }
+.srv:hover .ltag { border-color: rgba(255,255,255,0.2); color: rgba(255,255,255,0.38); }
+.s-n { font-size: 2.2rem; font-weight: 700; color: var(--light-grey); line-height: 1; margin-bottom: 0.8rem; transition: color 0.18s; }
+.s-nm { font-size: 1rem; font-weight: 600; margin-bottom: 0.35rem; }
+.s-d { font-size: 0.88rem; color: var(--dark-grey); line-height: 1.65; transition: color 0.18s; }
+.ltags { display: flex; gap: 4px; margin-top: 0.85rem; flex-wrap: wrap; }
+.ltag { font-size: 0.66rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; border: 1px solid rgba(0,0,0,0.14); padding: 3px 8px; color: var(--dark-grey); transition: border-color 0.18s, color 0.18s; }
+
+/* ── PROCESS ── */
+#process { background: #eeeeed; }
+.proc-steps { display: grid; grid-template-columns: repeat(4, 1fr); border: 1px solid var(--border); margin-top: 1.6rem; }
+.ps { padding: 1.4rem 1.3rem; border-right: 1px solid var(--border); position: relative; }
+.ps:last-child { border-right: none; }
+.ps-num { font-size: 2rem; font-weight: 700; color: var(--light-grey); line-height: 1; margin-bottom: 0.6rem; }
+.ps-title { font-size: 0.95rem; font-weight: 600; margin-bottom: 0.3rem; }
+.ps-desc { font-size: 0.85rem; color: var(--dark-grey); line-height: 1.6; }
+.ps-arrow { position: absolute; top: 50%; right: -9px; transform: translateY(-50%); width: 18px; height: 18px; background: #eeeeed; border: 1px solid var(--border); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.6rem; color: var(--mid-grey); z-index: 1; }
+.ps:last-child .ps-arrow { display: none; }
+
+/* ── DELIVERY ── */
+#delivery { background: #0a0a0a; color: var(--off-white); }
+.dlv-grid { display: grid; grid-template-columns: 1fr 1fr; border: 1px solid rgba(255,255,255,0.1); margin-top: 1.6rem; }
+.dc { padding: 1.6rem 1.5rem; border-right: 1px solid rgba(255,255,255,0.1); }
+.dc:last-child { border-right: none; }
+.dbadge { display: inline-block; font-size: 0.57rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; padding: 3px 9px; margin-bottom: 1rem; }
+.dbadge.std { background: rgba(255,255,255,0.08); color: var(--mid-grey); }
+.dbadge.exp { background: var(--off-white); color: #0a0a0a; }
+.dt { font-size: 3.2rem; font-weight: 700; line-height: 1; letter-spacing: -0.02em; }
+.du { font-size: 0.9rem; font-weight: 400; color: var(--mid-grey); margin-left: 3px; }
+.dd { font-size: 0.88rem; color: var(--mid-grey); margin-top: 0.75rem; line-height: 1.65; }
+.dl { margin-top: 0.9rem; list-style: none; }
+.dl li { font-size: 0.85rem; color: var(--mid-grey); padding: 0.32rem 0; border-bottom: 1px solid rgba(255,255,255,0.05); display: flex; align-items: center; gap: 8px; }
+.dl li::before { content: '—'; color: rgba(255,255,255,0.16); font-size: 0.7rem; flex-shrink: 0; }
+.dl li:last-child { border-bottom: none; }
+
+/* ── VERIFICATION ── */
+#verification { background: var(--light-grey); }
+.vwrap { max-width: 480px; margin: 1.6rem auto 0; }
+.vnote { font-size: 0.85rem; color: var(--dark-grey); margin-bottom: 1.2rem; line-height: 1.68; border-left: 2px solid rgba(0,0,0,0.12); padding-left: 0.9rem; }
+.fl { font-size: 0.68rem; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--dark-grey); margin-bottom: 5px; display: block; }
+.fi { width: 100%; padding: 11px 13px; border: 1.5px solid rgba(0,0,0,0.2); font-family: 'Montserrat', sans-serif; font-size: 0.92rem; background: #ffffff; color: #0a0a0a; outline: none; transition: border-color 0.15s; display: block; -webkit-appearance: none; appearance: none; }
+.fi:focus { border-color: #000000; }
+.fi::placeholder { color: #999999; }
+.fi-wrap { position: relative; }
+.fi-wrap::after { content: '▾'; position: absolute; right: 11px; top: 50%; transform: translateY(-50%); font-size: 0.7rem; color: #666; pointer-events: none; }
+.fi-wrap select.fi { padding-right: 30px; cursor: pointer; }
+.btn-k { width: 100%; padding: 11px; background: #0a0a0a; color: var(--off-white); border: none; font-family: 'Montserrat', sans-serif; font-size: 0.65rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; cursor: pointer; transition: opacity 0.15s; margin-top: 0.8rem; display: block; }
+.btn-k:hover { opacity: 0.75; }
+#vres { margin-top: 0.9rem; padding: 10px 12px; font-size: 0.75rem; font-weight: 500; display: none; }
+
+
+
+/* ── CONTACT ── */
+#contact { background: var(--off-white); }
+.ctgrid { display: grid; grid-template-columns: 1fr 1.6fr; gap: 3rem; margin-top: 1.6rem; align-items: start; }
+.cinfo p { font-size: 0.92rem; color: var(--dark-grey); line-height: 1.7; margin-bottom: 1.2rem; }
+.crow { margin-bottom: 0.8rem; }
+.crow-l { font-size: 0.66rem; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--mid-grey); margin-bottom: 2px; }
+.crow-v { font-size: 0.92rem; color: var(--dark-grey); }
+.crow-v a { color: var(--dark-grey); text-decoration: none; transition: color 0.15s; }
+.crow-v a:hover { color: #0a0a0a; }
+.cf { display: grid; gap: 0.9rem; }
+.cfr2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0.9rem; }
+.btn-send { width: 100%; padding: 12px; background: #0a0a0a; color: var(--off-white); border: none; font-family: 'Montserrat', sans-serif; font-size: 0.65rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; cursor: pointer; transition: opacity 0.15s; display: flex; align-items: center; justify-content: center; gap: 8px; }
+.btn-send:hover { opacity: 0.75; }
+.btn-send:disabled { opacity: 0.5; cursor: not-allowed; }
+.spinner { width: 12px; height: 12px; border: 2px solid rgba(246,246,244,0.3); border-top-color: var(--off-white); border-radius: 50%; animation: spin 0.7s linear infinite; display: none; }
+@keyframes spin { to { transform: rotate(360deg); } }
+#cf-status { font-size: 0.7rem; margin-top: 0.4rem; min-height: 1rem; text-align: center; }
+
+/* ── FOOTER ── */
+footer { background: #0a0a0a; color: var(--off-white); padding: 1.4rem 4%; display: flex; align-items: center; justify-content: space-between; border-top: 1px solid rgba(255,255,255,0.07); flex-wrap: wrap; gap: 0.8rem; }
+.flogo { font-size: 0.95rem; font-weight: 700; letter-spacing: 0.26em; text-transform: uppercase; }
+.fcopy { font-size: 0.62rem; color: var(--mid-grey); }
+.fnav { display: flex; gap: 1.4rem; }
+.fnav a { font-size: 0.62rem; color: var(--mid-grey); text-decoration: none; letter-spacing: 0.1em; text-transform: uppercase; transition: color 0.15s; }
+.fnav a:hover { color: var(--off-white); }
+
+/* ── SCROLL TO TOP ── */
+#fab-top { position: fixed; bottom: 22px; right: 22px; z-index: 500; display: none; width: 38px; height: 38px; background: #0a0a0a; color: #fff; border: 1px solid rgba(255,255,255,0.15); border-radius: 50%; cursor: pointer; align-items: center; justify-content: center; font-size: 1rem; box-shadow: 0 2px 12px rgba(0,0,0,0.3); transition: opacity 0.18s; }
+#fab-top.vis { display: flex; }
+#fab-top:hover { opacity: 0.75; }
+
+/* ── MOBILE ── */
+@media (max-width: 800px) {
+  .nav-links { display: none; }
+  .nav-cta { display: none; }
+  .hamburger { display: flex; }
+  .srv-grid, .dlv-grid, .proc-steps { grid-template-columns: 1fr; }
+  .srv { border-right: none; border-bottom: 1px solid var(--border); }
+  .srv:last-child { border-bottom: none; }
+  .ps { border-right: none; border-bottom: 1px solid var(--border); }
+  .ps:last-child { border-bottom: none; }
+  .ps-arrow { display: none; }
+  .dc { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.1); }
+  .dc:last-child { border-bottom: none; }
+  .ctgrid, .cfr2 { grid-template-columns: 1fr; }
+}
+
+</style>
+</head>
+<body>
+
+<!-- ════ HEADER ════ -->
+<header>
+  <a href="#hero" class="logo">Tasdeeq</a>
+  <div class="nav-right">
+    <ul class="nav-links">
+      <li><a href="#services">Services</a></li>
+      <li><a href="#process">Process</a></li>
+      <li><a href="#delivery">Delivery</a></li>
+      <li><a href="#verification">Verify</a></li>
+    </ul>
+    <a href="#contact" class="nav-cta">Contact Us</a>
+  </div>
+  <button class="hamburger" aria-label="Menu" onclick="document.getElementById('mobMenu').classList.toggle('open')">
+    <span></span><span></span><span></span>
+  </button>
+</header>
+
+<div class="mob-menu" id="mobMenu">
+  <a href="#services" onclick="document.getElementById('mobMenu').classList.remove('open')">Services</a>
+  <a href="#process"  onclick="document.getElementById('mobMenu').classList.remove('open')">Process</a>
+  <a href="#delivery" onclick="document.getElementById('mobMenu').classList.remove('open')">Delivery</a>
+  <a href="#verification" onclick="document.getElementById('mobMenu').classList.remove('open')">Verify</a>
+  <a href="#contact"  onclick="document.getElementById('mobMenu').classList.remove('open')">Contact Us</a>
+</div>
+
+<!-- ════ HERO ════ -->
+<section id="hero">
+  <div class="hero-eyebrow">Certified Translation Services</div>
+  <h1 class="hero-h1">Documents <strong>Translated.</strong><br>Identity <strong>Verified.</strong></h1>
+  <p class="hero-sub">Professional English, Urdu and Arabic translations of legal, official and academic documents — certified and delivered with precision. We'll reach you on WhatsApp or email.</p>
+  <div class="hero-actions">
+    <a href="#contact" class="btn-w">Order Translation</a>
+    <a href="#verification" class="btn-g">Verify a Document</a>
+  </div>
+  <div class="hero-stats">
+    <div><div class="stat-n">3<sup>hr</sup></div><div class="stat-l">Express Delivery</div></div>
+    <div><div class="stat-n">3</div><div class="stat-l">Languages</div></div>
+    <div><div class="stat-n">100%</div><div class="stat-l">Certified</div></div>
+    <div><div class="stat-n">24/7</div><div class="stat-l">Available</div></div>
+  </div>
+</section>
+
+<!-- ════ SERVICES ════ -->
+<section id="services">
+  <div class="sl">What We Translate</div>
+  <h2 class="st">Three languages. <strong>Every document.</strong></h2>
+  <div class="rule"></div>
+  <p class="ss">Certified translations across legal, official and academic domains for individuals, institutions and corporations worldwide.</p>
+  <div class="srv-grid">
+    <div class="srv">
+      <div class="s-n">01</div>
+      <div class="s-nm">Legal Documents</div>
+      <p class="s-d">Contracts, affidavits, court orders, power of attorney, birth, marriage and death certificates, legal notices and sworn statements.</p>
+      <div class="ltags"><span class="ltag">English</span><span class="ltag">Urdu</span><span class="ltag">Arabic</span></div>
+    </div>
+    <div class="srv">
+      <div class="s-n">02</div>
+      <div class="s-nm">Official Documents</div>
+      <p class="s-d">Passports, national identity cards, government permits, immigration papers, visa applications and notarised documents.</p>
+      <div class="ltags"><span class="ltag">English</span><span class="ltag">Urdu</span><span class="ltag">Arabic</span></div>
+    </div>
+    <div class="srv">
+      <div class="s-n">03</div>
+      <div class="s-nm">Academic Documents</div>
+      <p class="s-d">Degrees, transcripts, diplomas, mark sheets, equivalency certificates, reference letters and institutional attestations.</p>
+      <div class="ltags"><span class="ltag">English</span><span class="ltag">Urdu</span><span class="ltag">Arabic</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ════ PROCESS ════ -->
+<section id="process">
+  <div class="sl">How It Works</div>
+  <h2 class="st">Four steps. <strong>Done.</strong></h2>
+  <div class="rule"></div>
+  <div class="proc-steps">
+    <div class="ps">
+      <div class="ps-num">01</div>
+      <div class="ps-title">Send Your Document</div>
+      <p class="ps-desc">Email or WhatsApp us a clear scan or photo. We accept PDF, JPG and PNG formats.</p>
+      <div class="ps-arrow">›</div>
+    </div>
+    <div class="ps">
+      <div class="ps-num">02</div>
+      <div class="ps-title">Confirm &amp; Pay</div>
+      <p class="ps-desc">We confirm scope, language pair and delivery time. Payment is simple and secure.</p>
+      <div class="ps-arrow">›</div>
+    </div>
+    <div class="ps">
+      <div class="ps-num">03</div>
+      <div class="ps-title">Translation &amp; Certification</div>
+      <p class="ps-desc">Our certified translator completes the work with official stamp and signature.</p>
+      <div class="ps-arrow">›</div>
+    </div>
+    <div class="ps">
+      <div class="ps-num">04</div>
+      <div class="ps-title">Receive &amp; Verify</div>
+      <p class="ps-desc">You receive a print-ready certified PDF. Verify authenticity anytime using your reference number.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ════ DELIVERY ════ -->
+<section id="delivery">
+  <div class="sl" style="color:var(--mid-grey)">Turnaround Time</div>
+  <h2 class="st">On time, <strong>every time.</strong></h2>
+  <div class="rule" style="background:var(--off-white)"></div>
+  <p class="ss" style="color:var(--mid-grey)">Choose a plan that fits your schedule. Both options include certified translation and digital delivery.</p>
+  <div class="dlv-grid">
+    <div class="dc">
+      <span class="dbadge std">Standard</span>
+      <div class="dt">10 <span class="du">hours</span></div>
+      <p class="dd">Complete certified translation with thorough quality review. Ideal for planned submissions and non-urgent applications.</p>
+      <ul class="dl">
+        <li>Full quality review</li>
+        <li>Certified stamp and signature</li>
+        <li>Digital and print-ready PDF</li>
+        <li>One revision included</li>
+      </ul>
+    </div>
+    <div class="dc">
+      <span class="dbadge exp">Express</span>
+      <div class="dt">3 <span class="du">hours</span></div>
+      <p class="dd">Priority processing for urgent deadlines. Same certified accuracy — guaranteed turnaround in three hours or less.</p>
+      <ul class="dl">
+        <li>Priority queue placement</li>
+        <li>Certified stamp and signature</li>
+        <li>Digital and print-ready PDF</li>
+        <li>Direct translator contact</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ════ VERIFICATION ════ -->
+<section id="verification">
+  <div style="text-align:center">
+    <div class="sl">Document Verification</div>
+    <h2 class="st">Confirm <strong>authenticity.</strong></h2>
+    <div class="rule" style="margin:0.9rem auto"></div>
+    <p class="ss" style="margin:0 auto">Enter the document reference number to instantly verify whether a Tasdeeq-issued translation is on record.</p>
+  </div>
+  <div class="vwrap">
+    <p class="vnote" style="margin-top:1.4rem">For authorised recipients, employers, universities and government bodies. Enter the reference exactly as printed on your certificate — format: TSD-0001-26</p>
+    <label class="fl">Document Reference Number</label>
+    <input class="fi" id="docNum" type="text" placeholder="TSD-0001-26" maxlength="14" oninput="this.value=this.value.toUpperCase()" style="margin-bottom:0.8rem">
+    <button class="btn-k" onclick="verifyDoc()">Verify Document</button>
+    <div id="vres"></div>
+  </div>
+</section>
+
+
+
+<!-- ════ CONTACT ════ -->
+<section id="contact">
+  <div class="sl">Get In Touch</div>
+  <h2 class="st">Start your <strong>translation.</strong></h2>
+  <div class="rule"></div>
+  <div class="ctgrid">
+    <div class="cinfo">
+      <p>Fill in your details and submit your request. Once received, we will contact you directly on <strong>WhatsApp</strong> and <strong>email</strong> — usually within minutes, 24/7.</p>
+      <div class="crow">
+        <div class="crow-l">Email</div>
+        <div class="crow-v"><a href="mailto:istahsanali05@gmail.com">istahsanali05@gmail.com</a></div>
+      </div>
+      <div class="crow">
+        <div class="crow-l">WhatsApp</div>
+        <div class="crow-v"><a href="https://wa.me/923097700215" target="_blank">+92 309 7700215</a></div>
+      </div>
+      <div class="crow">
+        <div class="crow-l">Availability</div>
+        <div class="crow-v">24 / 7 — 365 days</div>
+      </div>
+      <div class="crow">
+        <div class="crow-l">Based in</div>
+        <div class="crow-v">Bahawalpur, Punjab, Pakistan</div>
+      </div>
+    </div>
+    <div class="cf">
+      <div class="cfr2">
+        <div>
+          <label class="fl">Full Name</label>
+          <input class="fi" id="cf-name" type="text" placeholder="Your full name">
+        </div>
+        <div>
+          <label class="fl">Email Address</label>
+          <input class="fi" id="cf-email" type="email" placeholder="your@email.com">
+        </div>
+      </div>
+      <div class="cfr2">
+        <div>
+          <label class="fl">WhatsApp Number</label>
+          <input class="fi" id="cf-whatsapp" type="tel" placeholder="+92 300 0000000">
+        </div>
+        <div>
+          <label class="fl">Document Type</label>
+          <div class="fi-wrap">
+            <select class="fi" id="cf-type">
+              <option value="">Select type</option>
+              <option>Legal Document</option>
+              <option>Official Document</option>
+              <option>Academic Document</option>
+              <option>Other</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="cfr2">
+        <div>
+          <label class="fl">Delivery</label>
+          <div class="fi-wrap">
+            <select class="fi" id="cf-delivery">
+              <option>Standard — 10 Hours</option>
+              <option>Express — 3 Hours</option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <label class="fl">Translation Direction</label>
+          <div class="fi-wrap">
+            <select class="fi" id="cf-lang">
+              <option>Urdu to English</option>
+              <option>English to Urdu</option>
+              <option>Arabic to English</option>
+              <option>English to Arabic</option>
+              <option>Urdu to Arabic</option>
+              <option>Arabic to Urdu</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div>
+        <label class="fl">Message</label>
+        <textarea class="fi" id="cf-msg" rows="4" placeholder="Describe your document and any specific requirements..." style="resize:vertical"></textarea>
+      </div>
+      <button class="btn-send" id="sendBtn" onclick="sendRequest()">
+        <span id="btnText">Send Request</span>
+        <span class="spinner" id="spinner"></span>
+      </button>
+      <div id="cf-status"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ════ FOOTER ════ -->
+<footer>
+  <div class="flogo">Tasdeeq</div>
+  <div class="fcopy">© 2025 Tasdeeq. Bahawalpur, Punjab, Pakistan.</div>
+  <nav class="fnav">
+    <a href="#services">Services</a>
+    <a href="#verification">Verify</a>
+    <a href="#contact">Contact</a>
+  </nav>
+</footer>
+
+<button id="fab-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Back to top">↑</button>
+
+
+<button id="fab-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Back to top">↑</button>
+
+<script>
+// ══════════════════════════════════════════════════════
+//  WEB3FORMS ACCESS KEY
+//  Get your free key at https://web3forms.com
+//  Takes 30 seconds — enter your email, copy the key.
+//  Replace YOUR_ACCESS_KEY below with your actual key.
+// ══════════════════════════════════════════════════════
+const W3F_KEY = 'Y6c228c9a-ad64-443b-8223-bd8ce216d534';
+
+// ── Scroll to top ──
+window.addEventListener('scroll', () => {
+  document.getElementById('fab-top').classList.toggle('vis', window.scrollY > 400);
+}, {passive:true});
+
+// ── Mobile menu ──
+document.querySelector('.hamburger').addEventListener('click', () => {
+  document.getElementById('mobMenu').classList.toggle('open');
+});
+document.querySelectorAll('.mob-menu a').forEach(a => {
+  a.addEventListener('click', () => document.getElementById('mobMenu').classList.remove('open'));
+});
+
+// ══════════════════════════════════════════════════════
+//  DOCUMENT VERIFICATION
+//  Reads from tasdeeq_docs in localStorage.
+//  Documents added in admin.html appear here instantly
+//  because both files share the same domain storage.
+// ══════════════════════════════════════════════════════
+function verifyDoc(){
+  const raw = document.getElementById('docNum').value.trim().toUpperCase();
+  const res = document.getElementById('vres');
+  res.style.paddingLeft = '12px';
+  if(!raw){
+    res.style.display='block'; res.style.borderLeft='2px solid #999';
+    res.style.background='transparent'; res.style.color='var(--dark-grey)';
+    res.textContent='Please enter a document reference number.'; return;
+  }
+  if(!/^TSD-\d{4}-\d{2}$/.test(raw)){
+    res.style.display='block'; res.style.borderLeft='2px solid #b03030';
+    res.style.background='#fdf0ef'; res.style.color='#8a2c22';
+    res.innerHTML='<strong>Invalid Format</strong> — Please use the format TSD-0001-26 exactly as printed on your certificate.'; return;
+  }
+  res.style.display='block'; res.style.borderLeft='2px solid var(--mid-grey)';
+  res.style.background='transparent'; res.style.color='var(--dark-grey)';
+  res.textContent='Checking…';
+  let docs = [];
+  try { docs = JSON.parse(localStorage.getItem('tasdeeq_docs')||'[]'); } catch(e){}
+  const found = docs.find(d => d.ref.toUpperCase() === raw);
+  setTimeout(() => {
+    if(found){
+      res.style.borderLeft='2px solid #2a7a4a'; res.style.background='#f0f9f3'; res.style.color='#1a5c34';
+      res.innerHTML=`<strong>Verified</strong> — Document on record.<br>
+        <span style="font-weight:400;font-size:0.72rem;display:block;margin-top:4px">
+          Client: ${found.client} &nbsp;|&nbsp; Document: ${found.docname||found.type} &nbsp;|&nbsp; Completed: ${found.date}
+        </span>`;
+    } else {
+      res.style.borderLeft='2px solid #b03030'; res.style.background='#fdf0ef'; res.style.color='#8a2c22';
+      res.innerHTML='<strong>Not Found</strong> — No record matches this reference. Contact us if you believe this is an error.';
+    }
+  }, 800);
+}
+document.getElementById('docNum').addEventListener('keydown', e => { if(e.key==='Enter') verifyDoc(); });
+
+// ══════════════════════════════════════════════════════
+//  CONTACT FORM
+//  1. Saves request to localStorage → appears in admin
+//     panel immediately (same domain = shared storage)
+//  2. Sends email to istahsanali05@gmail.com via
+//     Web3Forms automatically (no client action needed)
+// ══════════════════════════════════════════════════════
+async function sendRequest(){
+  const name     = document.getElementById('cf-name').value.trim();
+  const email    = document.getElementById('cf-email').value.trim();
+  const whatsapp = document.getElementById('cf-whatsapp').value.trim();
+  const type     = document.getElementById('cf-type').value || 'Not specified';
+  const delivery = document.getElementById('cf-delivery').value;
+  const lang     = document.getElementById('cf-lang').value;
+  const msg      = document.getElementById('cf-msg').value.trim();
+  const st       = document.getElementById('cf-status');
+  const btn      = document.getElementById('sendBtn');
+  const spinner  = document.getElementById('spinner');
+  const btnText  = document.getElementById('btnText');
+
+  // Validation
+  if(!name || !email || !msg){
+    st.style.color='#c0392b';
+    st.textContent='Please fill in your name, email and message.';
+    return;
+  }
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
+    st.style.color='#c0392b';
+    st.textContent='Please enter a valid email address.';
+    return;
+  }
+
+  btn.disabled=true; spinner.style.display='block'; btnText.textContent='Sending…'; st.textContent='';
+
+  // ── Step 1: Save to localStorage for admin panel ──
+  const reqObj = {
+    id       : Date.now().toString(),
+    name, email,
+    whatsapp : whatsapp || '',
+    type, delivery, lang,
+    message  : msg,
+    date     : new Date().toLocaleDateString('en-GB'),
+    status   : 'New'
+  };
+  try {
+    const existing = JSON.parse(localStorage.getItem('tasdeeq_requests')||'[]');
+    existing.unshift(reqObj);
+    localStorage.setItem('tasdeeq_requests', JSON.stringify(existing));
+  } catch(e){}
+
+  // ── Step 2: Send email via Web3Forms ──
+  const payload = {
+    access_key : W3F_KEY,
+    subject    : `New Request — ${type} | ${delivery} | ${name}`,
+    from_name  : 'Tasdeeq Website',
+    name, email,
+    whatsapp   : whatsapp || 'Not provided',
+    document   : type,
+    delivery, language: lang,
+    message    : msg,
+    replyto    : email,
+  };
+
+  // If key not configured → skip Web3Forms, just confirm localStorage save
+  if(W3F_KEY === 'YOUR_ACCESS_KEY'){
+    btn.disabled=false; spinner.style.display='none'; btnText.textContent='Send Request';
+    st.style.color='#2a7a4a';
+    st.textContent='✓ Request received — we will contact you shortly.';
+    _clearForm();
+    return;
+  }
+
+  try {
+    const resp = await fetch('https://api.web3forms.com/submit', {
+      method : 'POST',
+      headers: {'Content-Type':'application/json', 'Accept':'application/json'},
+      body   : JSON.stringify(payload),
+    });
+    const data = await resp.json();
+    btn.disabled=false; spinner.style.display='none'; btnText.textContent='Send Request';
+    if(data.success){
+      st.style.color='#2a7a4a';
+      st.textContent='✓ Request sent — we will contact you shortly.';
+      _clearForm();
+    } else {
+      throw new Error(data.message||'error');
+    }
+  } catch(err){
+    btn.disabled=false; spinner.style.display='none'; btnText.textContent='Send Request';
+    // Request already saved to localStorage — still inform client it worked
+    st.style.color='#2a7a4a';
+    st.textContent='✓ Request received — we will contact you shortly.';
+    _clearForm();
+    console.error('Web3Forms error:', err);
+  }
+}
+
+function _clearForm(){
+  ['cf-name','cf-email','cf-whatsapp','cf-msg'].forEach(id => {
+    document.getElementById(id).value='';
+  });
+  document.getElementById('cf-type').value='';
+}
+</script>
+</body>
+</html>

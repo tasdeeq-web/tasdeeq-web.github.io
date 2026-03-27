@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>Tasdeeq — Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--k:#0a0a0a;--w:#f6f6f4;--gl:#e4e4e2;--gm:#a6a6a4;--gd:#3a3a38;--bd:rgba(0,0,0,0.11);--green:#2a7a4a;--red:#b03030;--amber:#a06800}
+body{font-family:'Montserrat',sans-serif;background:var(--w);color:var(--k);line-height:1.5;min-height:100vh}
+
+/* LOGIN */
+#login-screen{position:fixed;inset:0;background:#000;display:flex;align-items:center;justify-content:center;z-index:9999}
+.lb{width:100%;max-width:340px;padding:0 1.5rem}
+.lb-logo{font-size:1.5rem;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:#fff;display:block;margin-bottom:4px}
+.lb-rule{height:1px;background:rgba(255,255,255,0.12);margin-bottom:2rem}
+.lb-label{font-size:0.6rem;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:rgba(255,255,255,0.38);display:block;margin-bottom:6px}
+.lb-input{width:100%;padding:12px 14px;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);color:#fff;font-family:'Montserrat',sans-serif;font-size:0.9rem;outline:none;transition:border-color .15s;margin-bottom:0.9rem}
+.lb-input:focus{border-color:rgba(255,255,255,0.45)}
+.lb-input::placeholder{color:rgba(255,255,255,0.2)}
+.lb-btn{width:100%;padding:12px;background:#fff;color:#000;border:none;font-family:'Montserrat',sans-serif;font-size:0.65rem;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;cursor:pointer;transition:opacity .15s}
+.lb-btn:hover{opacity:.85}
+.lb-err{font-size:0.7rem;color:#ff9090;margin-top:0.6rem;display:none;text-align:center}
+
+/* APP */
+#app{display:none}
+
+/* TOPBAR */
+.topbar{position:sticky;top:0;z-index:100;background:#000;height:58px;padding:0 2rem;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,0.1)}
+.topbar-logo{font-size:1rem;font-weight:700;letter-spacing:0.22em;text-transform:uppercase;color:#fff}
+.topbar-logo span{font-size:0.58rem;font-weight:400;letter-spacing:0.1em;color:rgba(255,255,255,0.3);margin-left:8px}
+.topbar-right{display:flex;align-items:center;gap:0.3rem}
+.tab{font-family:'Montserrat',sans-serif;font-size:0.62rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;background:none;color:rgba(255,255,255,0.35);border:none;border-bottom:2px solid transparent;cursor:pointer;padding:8px 14px;transition:all .15s}
+.tab.active,.tab:hover{color:#fff}
+.tab.active{border-bottom-color:#fff}
+.logout{font-family:'Montserrat',sans-serif;font-size:0.6rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;background:rgba(255,255,255,0.07);color:rgba(255,255,255,0.4);border:1px solid rgba(255,255,255,0.12);padding:6px 14px;cursor:pointer;transition:all .15s;margin-left:0.8rem}
+.logout:hover{color:#fff;border-color:rgba(255,255,255,0.3)}
+
+/* PANELS */
+.panel{display:none;padding:1.8rem 2rem}
+.panel.active{display:block}
+.ph{margin-bottom:1.4rem}
+.ph-title{font-size:1.1rem;font-weight:600;margin-bottom:0.2rem}
+.ph-sub{font-size:0.74rem;color:var(--gm);line-height:1.6}
+
+/* STATS */
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:0.9rem;margin-bottom:1.6rem}
+.sc{border:1px solid var(--bd);padding:1rem 1.2rem}
+.sc-val{font-size:2rem;font-weight:700;line-height:1}
+.sc-lbl{font-size:0.58rem;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--gm);margin-top:4px}
+
+/* TOOLBAR */
+.toolbar{display:flex;align-items:center;gap:0.6rem;margin-bottom:1rem;flex-wrap:wrap}
+.t-search{padding:8px 11px;border:1px solid var(--bd);background:var(--w);font-family:'Montserrat',sans-serif;font-size:0.76rem;color:var(--k);outline:none;transition:border-color .15s;flex:1;min-width:160px}
+.t-search:focus{border-color:var(--k)}
+.t-search::placeholder{color:var(--gm)}
+.t-sel{padding:8px 11px;border:1px solid var(--bd);background:var(--w);font-family:'Montserrat',sans-serif;font-size:0.73rem;color:var(--gd);outline:none;cursor:pointer;appearance:none}
+.t-btn{font-family:'Montserrat',sans-serif;font-size:0.62rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;background:var(--k);color:var(--w);border:none;padding:9px 16px;cursor:pointer;transition:opacity .15s;white-space:nowrap}
+.t-btn:hover{opacity:.75}
+.t-btn.sec{background:var(--gd)}
+
+/* TABLE */
+.tbl-wrap{overflow-x:auto;border:1px solid var(--bd)}
+table{width:100%;border-collapse:collapse;font-size:0.76rem}
+thead tr{background:var(--k);color:#fff}
+th{padding:9px 12px;text-align:left;font-size:0.59rem;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;white-space:nowrap}
+td{padding:9px 12px;border-bottom:1px solid var(--bd);vertical-align:middle}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:rgba(0,0,0,0.022)}
+.empty{padding:2.5rem;text-align:center;color:var(--gm);font-size:0.78rem;line-height:1.7}
+
+/* BADGES */
+.badge{display:inline-block;font-size:0.56rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;padding:2px 8px}
+.b-new{background:#fff8e6;color:var(--amber);border:1px solid #e8d5a0}
+.b-prog{background:#e8f4ee;color:var(--green);border:1px solid #b8d8c4}
+.b-done{background:var(--gl);color:var(--gd);border:1px solid #ccc}
+
+/* ACTION BTN */
+.ab{font-family:'Montserrat',sans-serif;font-size:0.56rem;font-weight:600;letter-spacing:0.09em;text-transform:uppercase;background:none;border:1px solid var(--bd);color:var(--gd);padding:3px 8px;cursor:pointer;transition:all .15s;margin-right:3px}
+.ab:hover{background:var(--k);color:#fff;border-color:var(--k)}
+.ab.del:hover{background:var(--red);border-color:var(--red);color:#fff}
+
+/* MODAL */
+.overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.55);z-index:500;align-items:center;justify-content:center;padding:1rem}
+.overlay.open{display:flex}
+.modal{background:var(--w);width:100%;max-width:520px;padding:1.8rem;max-height:90vh;overflow-y:auto}
+.modal-title{font-size:0.95rem;font-weight:600;margin-bottom:1.3rem;padding-bottom:0.75rem;border-bottom:1px solid var(--bd)}
+.mrow{display:grid;grid-template-columns:1fr 1fr;gap:0.8rem}
+.mfl{font-size:0.58rem;font-weight:600;letter-spacing:0.15em;text-transform:uppercase;color:var(--gd);margin-bottom:4px;display:block}
+.mfi{width:100%;padding:10px 12px;border:1.5px solid rgba(0,0,0,0.15);font-family:'Montserrat',sans-serif;font-size:0.82rem;background:#fff;color:var(--k);outline:none;transition:border-color .15s;margin-bottom:0.8rem}
+.mfi:focus{border-color:var(--k)}
+.mfi::placeholder{color:#aaa}
+select.mfi{cursor:pointer;appearance:none}
+.merr{font-size:0.7rem;color:var(--red);margin-bottom:0.6rem;display:none}
+.mactions{display:flex;gap:0.6rem;margin-top:0.4rem}
+.m-save{flex:1;padding:11px;background:var(--k);color:#fff;border:none;font-family:'Montserrat',sans-serif;font-size:0.63rem;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;cursor:pointer;transition:opacity .15s}
+.m-save:hover{opacity:.75}
+.m-save.green{background:var(--green)}
+.m-save.amber{background:var(--amber)}
+.m-cancel{padding:11px 18px;background:transparent;color:var(--gd);border:1px solid var(--bd);font-family:'Montserrat',sans-serif;font-size:0.63rem;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;cursor:pointer;transition:all .15s}
+.m-cancel:hover{border-color:var(--k);color:var(--k)}
+
+/* REQUEST DETAIL */
+.det-grid{display:grid;grid-template-columns:1fr 1fr;gap:0.5rem 1.4rem;margin-bottom:1rem}
+.det-l{font-size:0.58rem;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--gm)}
+.det-v{font-size:0.82rem;color:var(--gd);margin-top:1px}
+.det-v a{color:var(--gd);text-decoration:none}
+.det-v a:hover{color:var(--k)}
+.msg-box{background:var(--gl);padding:0.8rem 1rem;font-size:0.8rem;color:var(--gd);line-height:1.65;margin:0.8rem 0;border-left:2px solid var(--bd)}
+
+@media(max-width:680px){
+  .stats-row{grid-template-columns:1fr 1fr}
+  .mrow,.det-grid{grid-template-columns:1fr}
+  .panel{padding:1rem}
+  .topbar{padding:0 1rem}
+}
+</style>
+</head>
+<body>
+
+<div id="login-screen">
+  <div class="lb">
+    <span class="lb-logo">Tasdeeq</span>
+    <div class="lb-rule"></div>
+    <label class="lb-label">Admin Password</label>
+    <input class="lb-input" type="password" id="pw" placeholder="Enter password" onkeydown="if(event.key==='Enter')login()">
+    <button class="lb-btn" onclick="login()">Sign In</button>
+    <div class="lb-err" id="lb-err">Incorrect password.</div>
+  </div>
+</div>
+
+<div id="app">
+  <div class="topbar">
+    <div class="topbar-logo">Tasdeeq <span>Admin</span></div>
+    <div class="topbar-right">
+      <button class="tab active" data-tab="docs" onclick="switchTab(this)">Documents</button>
+      <button class="tab" data-tab="requests" onclick="switchTab(this)">Requests <span id="new-badge"></span></button>
+      <button class="logout" onclick="logout()">Sign Out</button>
+    </div>
+  </div>
+
+  <!-- DOCUMENTS -->
+  <div class="panel active" id="panel-docs">
+    <div class="ph">
+      <div class="ph-title">Completed Documents</div>
+      <div class="ph-sub">Every document you add here becomes instantly verifiable on the main website. The reference number and document name show in the verification result.</div>
+    </div>
+    <div class="stats-row" id="doc-stats"></div>
+    <div class="toolbar">
+      <input class="t-search" id="doc-search" type="text" placeholder="Search by reference, client or document name…" oninput="renderDocs()">
+      <select class="t-sel" id="doc-type-f" onchange="renderDocs()">
+        <option value="">All Types</option>
+        <option>Legal</option><option>Official</option><option>Academic</option><option>Other</option>
+      </select>
+      <button class="t-btn" onclick="openDocModal()">+ Add Document</button>
+    </div>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr>
+          <th>Reference</th><th>Client Name</th><th>Document Name</th>
+          <th>Type</th><th>Language</th><th>Completed</th><th>Notes</th><th></th>
+        </tr></thead>
+        <tbody id="docs-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- REQUESTS -->
+  <div class="panel" id="panel-requests">
+    <div class="ph">
+      <div class="ph-title">Client Requests</div>
+      <div class="ph-sub">
+        All requests submitted via the contact form appear here automatically — because your website and admin panel share the same domain storage.<br>
+        You also receive an email notification at <strong>istahsanali05@gmail.com</strong> for every submission.
+      </div>
+    </div>
+    <div class="stats-row" id="req-stats"></div>
+    <div class="toolbar">
+      <input class="t-search" id="req-search" type="text" placeholder="Search by name, email or WhatsApp…" oninput="renderRequests()">
+      <select class="t-sel" id="req-status-f" onchange="renderRequests()">
+        <option value="">All Status</option>
+        <option>New</option><option>In Progress</option><option>Completed</option>
+      </select>
+      <button class="t-btn sec" onclick="clearCompleted()">Clear Completed</button>
+    </div>
+    <div class="tbl-wrap">
+      <table>
+        <thead><tr>
+          <th>Date</th><th>Name</th><th>Email</th><th>WhatsApp</th>
+          <th>Document</th><th>Delivery</th><th>Status</th><th></th>
+        </tr></thead>
+        <tbody id="req-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ADD/EDIT DOCUMENT MODAL -->
+<div class="overlay" id="doc-modal">
+  <div class="modal">
+    <div class="modal-title" id="doc-modal-title">Add Completed Document</div>
+    <div class="mrow">
+      <div>
+        <label class="mfl">Reference Number</label>
+        <input class="mfi" id="dm-ref" type="text" placeholder="TSD-0001-26" maxlength="14" oninput="this.value=this.value.toUpperCase()">
+      </div>
+      <div>
+        <label class="mfl">Completion Date</label>
+        <input class="mfi" id="dm-date" type="date">
+      </div>
+    </div>
+    <label class="mfl">Client Name</label>
+    <input class="mfi" id="dm-client" type="text" placeholder="Full name of client">
+    <label class="mfl">Document Name <em style="font-weight:400;font-style:italic;text-transform:none;letter-spacing:0;font-size:0.75rem">(e.g. CNIC, Nikah Nama, Degree Certificate)</em></label>
+    <input class="mfi" id="dm-docname" type="text" placeholder="e.g. CNIC, Marriage Certificate, Degree">
+    <div class="mrow">
+      <div>
+        <label class="mfl">Document Type</label>
+        <select class="mfi" id="dm-type">
+          <option>Legal</option><option>Official</option><option>Academic</option><option>Other</option>
+        </select>
+      </div>
+      <div>
+        <label class="mfl">Language</label>
+        <select class="mfi" id="dm-lang">
+          <option>Urdu to English</option><option>English to Urdu</option>
+          <option>Arabic to English</option><option>English to Arabic</option>
+          <option>Urdu to Arabic</option><option>Arabic to Urdu</option>
+        </select>
+      </div>
+    </div>
+    <label class="mfl">Notes (optional)</label>
+    <input class="mfi" id="dm-notes" type="text" placeholder="Any additional notes…" style="margin-bottom:0.4rem">
+    <div class="merr" id="dm-err"></div>
+    <div class="mactions">
+      <button class="m-cancel" onclick="closeDocModal()">Cancel</button>
+      <button class="m-save" onclick="saveDoc()">Save Document</button>
+    </div>
+  </div>
+</div>
+
+<!-- VIEW REQUEST MODAL -->
+<div class="overlay" id="req-modal">
+  <div class="modal">
+    <div class="modal-title">Request Details</div>
+    <div class="det-grid" id="req-detail"></div>
+    <div class="msg-box" id="req-msg"></div>
+    <div class="mactions">
+      <button class="m-cancel" onclick="closeReqModal()">Close</button>
+      <button class="m-save amber" id="btn-prog" onclick="setStatus('In Progress')">Mark In Progress</button>
+      <button class="m-save green" id="btn-done" onclick="setStatus('Completed')">Mark Completed</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── CHANGE THIS PASSWORD ──
+const ADMIN_PASS = 'tasdeeq2025';
+
+// ── Auth ──
+function login(){
+  if(document.getElementById('pw').value === ADMIN_PASS){
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('app').style.display = 'block';
+    init();
+  } else {
+    document.getElementById('lb-err').style.display = 'block';
+    document.getElementById('pw').value = '';
+    document.getElementById('pw').focus();
+  }
+}
+function logout(){
+  document.getElementById('app').style.display = 'none';
+  document.getElementById('login-screen').style.display = 'flex';
+  document.getElementById('pw').value = '';
+}
+
+// ── Tabs ──
+function switchTab(el){
+  document.querySelectorAll('.tab').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  el.classList.add('active');
+  const t = el.dataset.tab;
+  document.getElementById('panel-'+t).classList.add('active');
+  t === 'docs' ? (renderDocs(), updateDocStats()) : (renderRequests(), updateReqStats());
+}
+
+// ── Storage helpers ──
+function getDocs(){ try{ return JSON.parse(localStorage.getItem('tasdeeq_docs')||'[]'); }catch{ return []; } }
+function saveDocs(d){ localStorage.setItem('tasdeeq_docs', JSON.stringify(d)); }
+function getReqs(){ try{ return JSON.parse(localStorage.getItem('tasdeeq_requests')||'[]'); }catch{ return []; } }
+function saveReqs(r){ localStorage.setItem('tasdeeq_requests', JSON.stringify(r)); }
+
+// ── Auto-reference ──
+function nextRef(){
+  const docs = getDocs();
+  const y = new Date().getFullYear().toString().slice(-2);
+  if(!docs.length) return `TSD-0001-${y}`;
+  const max = Math.max(...docs.map(d=>{ const m=d.ref.match(/TSD-(\d{4})/); return m?+m[1]:0; }));
+  return `TSD-${String(max+1).padStart(4,'0')}-${y}`;
+}
+
+// ══════════════════════════
+//  DOCUMENTS
+// ══════════════════════════
+let editId = null;
+
+function openDocModal(id){
+  editId = id || null;
+  document.getElementById('dm-err').style.display = 'none';
+  if(id){
+    const d = getDocs().find(x => x.id === id);
+    document.getElementById('doc-modal-title').textContent = 'Edit Document';
+    document.getElementById('dm-ref').value     = d.ref;
+    document.getElementById('dm-date').value    = d.date;
+    document.getElementById('dm-client').value  = d.client;
+    document.getElementById('dm-docname').value = d.docname || '';
+    document.getElementById('dm-type').value    = d.type;
+    document.getElementById('dm-lang').value    = d.lang || 'Urdu to English';
+    document.getElementById('dm-notes').value   = d.notes || '';
+  } else {
+    document.getElementById('doc-modal-title').textContent = 'Add Completed Document';
+    document.getElementById('dm-ref').value     = nextRef();
+    document.getElementById('dm-date').value    = new Date().toISOString().split('T')[0];
+    document.getElementById('dm-client').value  = '';
+    document.getElementById('dm-docname').value = '';
+    document.getElementById('dm-notes').value   = '';
+  }
+  document.getElementById('doc-modal').classList.add('open');
+}
+function closeDocModal(){ document.getElementById('doc-modal').classList.remove('open'); }
+
+function saveDoc(){
+  const ref     = document.getElementById('dm-ref').value.trim().toUpperCase();
+  const date    = document.getElementById('dm-date').value;
+  const client  = document.getElementById('dm-client').value.trim();
+  const docname = document.getElementById('dm-docname').value.trim();
+  const type    = document.getElementById('dm-type').value;
+  const lang    = document.getElementById('dm-lang').value;
+  const notes   = document.getElementById('dm-notes').value.trim();
+  const err     = document.getElementById('dm-err');
+
+  if(!ref || !date || !client || !docname){
+    err.style.display = 'block';
+    err.textContent = 'Reference, date, client name and document name are all required.';
+    return;
+  }
+  if(!/^TSD-\d{4}-\d{2}$/.test(ref)){
+    err.style.display = 'block';
+    err.textContent = 'Format must be TSD-0001-26';
+    return;
+  }
+  let docs = getDocs();
+  if(docs.find(d => d.ref === ref && d.id !== editId)){
+    err.style.display = 'block';
+    err.textContent = 'This reference number already exists.';
+    return;
+  }
+  if(editId){
+    docs = docs.map(d => d.id === editId ? {...d,ref,date,client,docname,type,lang,notes} : d);
+  } else {
+    docs.unshift({id: Date.now().toString(), ref, date, client, docname, type, lang, notes});
+  }
+  saveDocs(docs);
+  closeDocModal();
+  renderDocs();
+  updateDocStats();
+}
+
+function deleteDoc(id){
+  if(!confirm('Delete this record? It will no longer be verifiable on the website.')) return;
+  saveDocs(getDocs().filter(d => d.id !== id));
+  renderDocs();
+  updateDocStats();
+}
+
+function renderDocs(){
+  const search = document.getElementById('doc-search').value.toLowerCase();
+  const tf     = document.getElementById('doc-type-f').value;
+  let docs = getDocs();
+  if(search) docs = docs.filter(d => (d.ref+d.client+(d.docname||'')+(d.notes||'')).toLowerCase().includes(search));
+  if(tf)     docs = docs.filter(d => d.type === tf);
+  const tb = document.getElementById('docs-tbody');
+  if(!docs.length){
+    tb.innerHTML = `<tr><td colspan="8"><div class="empty">No documents yet.<br>Add your first completed job using the button above.</div></td></tr>`;
+    return;
+  }
+  tb.innerHTML = docs.map(d => `<tr>
+    <td><strong style="font-size:0.78rem">${d.ref}</strong></td>
+    <td>${d.client}</td>
+    <td><strong>${d.docname||'—'}</strong></td>
+    <td style="color:var(--gm);font-size:0.72rem">${d.type}</td>
+    <td style="color:var(--gm);font-size:0.72rem">${d.lang||'—'}</td>
+    <td style="font-size:0.72rem">${d.date}</td>
+    <td style="max-width:130px;color:var(--gm);font-size:0.7rem;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" title="${d.notes||''}">${d.notes||'—'}</td>
+    <td style="white-space:nowrap">
+      <button class="ab" onclick="openDocModal('${d.id}')">Edit</button>
+      <button class="ab del" onclick="deleteDoc('${d.id}')">Delete</button>
+    </td>
+  </tr>`).join('');
+}
+
+function updateDocStats(){
+  const docs = getDocs();
+  document.getElementById('doc-stats').innerHTML = `
+    <div class="sc"><div class="sc-val">${docs.length}</div><div class="sc-lbl">Total</div></div>
+    <div class="sc"><div class="sc-val">${docs.filter(d=>d.type==='Legal').length}</div><div class="sc-lbl">Legal</div></div>
+    <div class="sc"><div class="sc-val">${docs.filter(d=>d.type==='Official').length}</div><div class="sc-lbl">Official</div></div>
+    <div class="sc"><div class="sc-val">${docs.filter(d=>d.type==='Academic').length}</div><div class="sc-lbl">Academic</div></div>`;
+}
+
+// ══════════════════════════
+//  REQUESTS
+// ══════════════════════════
+let viewingId = null;
+
+function renderRequests(){
+  const search = document.getElementById('req-search').value.toLowerCase();
+  const sf     = document.getElementById('req-status-f').value;
+  let reqs = getReqs();
+  if(search) reqs = reqs.filter(r => (r.name+r.email+(r.whatsapp||'')).toLowerCase().includes(search));
+  if(sf)     reqs = reqs.filter(r => r.status === sf);
+  const tb = document.getElementById('req-tbody');
+  if(!reqs.length){
+    tb.innerHTML = `<tr><td colspan="8"><div class="empty">
+      No requests yet.<br>
+      When a client submits the contact form on your website,<br>
+      it appears here automatically.
+    </div></td></tr>`;
+    return;
+  }
+  tb.innerHTML = reqs.map(r => {
+    const bc = r.status==='New' ? 'b-new' : r.status==='In Progress' ? 'b-prog' : 'b-done';
+    const wa = r.whatsapp
+      ? `<a href="https://wa.me/${r.whatsapp.replace(/\D/g,'')}" target="_blank" style="color:var(--green)">${r.whatsapp}</a>`
+      : '<span style="color:var(--gm)">—</span>';
+    return `<tr>
+      <td style="font-size:0.71rem;white-space:nowrap">${r.date||'—'}</td>
+      <td>${r.name||'—'}</td>
+      <td style="font-size:0.72rem"><a href="mailto:${r.email}" style="color:var(--gd);text-decoration:none">${r.email||'—'}</a></td>
+      <td style="font-size:0.72rem">${wa}</td>
+      <td style="font-size:0.72rem;color:var(--gm)">${r.type||'—'}</td>
+      <td style="font-size:0.72rem;color:var(--gm)">${r.delivery||'—'}</td>
+      <td><span class="badge ${bc}">${r.status}</span></td>
+      <td><button class="ab" onclick="viewReq('${r.id}')">View</button></td>
+    </tr>`;
+  }).join('');
+}
+
+function updateReqStats(){
+  const reqs = getReqs();
+  const nw = reqs.filter(r => r.status==='New').length;
+  const ip = reqs.filter(r => r.status==='In Progress').length;
+  const dn = reqs.filter(r => r.status==='Completed').length;
+  document.getElementById('req-stats').innerHTML = `
+    <div class="sc"><div class="sc-val">${reqs.length}</div><div class="sc-lbl">Total</div></div>
+    <div class="sc"><div class="sc-val" style="color:var(--amber)">${nw}</div><div class="sc-lbl">New</div></div>
+    <div class="sc"><div class="sc-val" style="color:var(--green)">${ip}</div><div class="sc-lbl">In Progress</div></div>
+    <div class="sc"><div class="sc-val" style="color:var(--gm)">${dn}</div><div class="sc-lbl">Completed</div></div>`;
+  document.getElementById('new-badge').textContent = nw ? ` (${nw})` : '';
+}
+
+function viewReq(id){
+  viewingId = id;
+  const r = getReqs().find(x => x.id === id);
+  if(!r) return;
+  const wa = r.whatsapp
+    ? `<a href="https://wa.me/${r.whatsapp.replace(/\D/g,'')}" target="_blank">${r.whatsapp}</a>`
+    : '—';
+  document.getElementById('req-detail').innerHTML = `
+    <div><div class="det-l">Name</div><div class="det-v">${r.name||'—'}</div></div>
+    <div><div class="det-l">Email</div><div class="det-v"><a href="mailto:${r.email}">${r.email||'—'}</a></div></div>
+    <div><div class="det-l">WhatsApp</div><div class="det-v">${wa}</div></div>
+    <div><div class="det-l">Document Type</div><div class="det-v">${r.type||'—'}</div></div>
+    <div><div class="det-l">Delivery</div><div class="det-v">${r.delivery||'—'}</div></div>
+    <div><div class="det-l">Language</div><div class="det-v">${r.lang||'—'}</div></div>
+    <div><div class="det-l">Status</div><div class="det-v">${r.status}</div></div>
+    <div><div class="det-l">Received</div><div class="det-v">${r.date||'—'}</div></div>`;
+  document.getElementById('req-msg').textContent = r.message || 'No message.';
+  const done = r.status === 'Completed';
+  document.getElementById('btn-prog').style.display = done ? 'none' : 'block';
+  document.getElementById('btn-done').style.display = done ? 'none' : 'block';
+  // Auto-mark as In Progress when opened
+  if(r.status === 'New'){
+    saveReqs(getReqs().map(x => x.id === id ? {...x, status:'In Progress'} : x));
+    updateReqStats();
+  }
+  document.getElementById('req-modal').classList.add('open');
+}
+
+function closeReqModal(){
+  document.getElementById('req-modal').classList.remove('open');
+  renderRequests();
+  updateReqStats();
+}
+
+function setStatus(s){
+  saveReqs(getReqs().map(r => r.id === viewingId ? {...r, status:s} : r));
+  closeReqModal();
+}
+
+function clearCompleted(){
+  if(!confirm('Remove all completed requests?')) return;
+  saveReqs(getReqs().filter(r => r.status !== 'Completed'));
+  renderRequests();
+  updateReqStats();
+}
+
+// ── Close modals on overlay click ──
+document.getElementById('doc-modal').addEventListener('click', function(e){ if(e.target===this) closeDocModal(); });
+document.getElementById('req-modal').addEventListener('click', function(e){ if(e.target===this) closeReqModal(); });
+
+// ── Init ──
+function init(){
+  renderDocs();
+  updateDocStats();
+  renderRequests();
+  updateReqStats();
+}
+</script>
+</body>
+</html>
