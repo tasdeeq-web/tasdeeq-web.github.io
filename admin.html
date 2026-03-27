@@ -279,24 +279,43 @@ function logout(){
 }
 
 // ── Tabs ──
-function switchTab(el){
+async function switchTab(el){
   document.querySelectorAll('.tab').forEach(b => b.classList.remove('active'));
   document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
   el.classList.add('active');
   const t = el.dataset.tab;
   document.getElementById('panel-'+t).classList.add('active');
-  t === 'docs' ? (renderDocs(), updateDocStats()) : (renderRequests(), updateReqStats());
+  if(t === 'docs'){ await renderDocs(); await updateDocStats(); } else { renderRequests(); updateReqStats(); }
 }
 
-// ── Storage helpers ──
-function getDocs(){ try{ return JSON.parse(localStorage.getItem('tasdeeq_docs')||'[]'); }catch{ return []; } }
-function saveDocs(d){ localStorage.setItem('tasdeeq_docs', JSON.stringify(d)); }
+// ── JSONBin config (documents live in cloud so customers can verify) ──
+const JBIN_ID  = '69c6d28baa77b81da928105f';
+const JBIN_KEY = '$2a$10$UqpmZhWjZRjEP7jCtKosROFnzjt3ZfUZbK3yHsSF3lpUABhJ0SrXS';
+
+async function getDocs(){
+  try {
+    const r = await fetch(`https://api.jsonbin.io/v3/b/${JBIN_ID}/latest`, {
+      headers: { 'X-Access-Key': JBIN_KEY }
+    });
+    const data = await r.json();
+    return data.record?.docs || [];
+  } catch(e){ return []; }
+}
+async function saveDocs(docs){
+  await fetch(`https://api.jsonbin.io/v3/b/${JBIN_ID}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json', 'X-Access-Key': JBIN_KEY },
+    body: JSON.stringify({ docs })
+  });
+}
+
+// ── Requests stay in localStorage (same domain = works fine) ──
 function getReqs(){ try{ return JSON.parse(localStorage.getItem('tasdeeq_requests')||'[]'); }catch{ return []; } }
 function saveReqs(r){ localStorage.setItem('tasdeeq_requests', JSON.stringify(r)); }
 
 // ── Auto-reference ──
-function nextRef(){
-  const docs = getDocs();
+async function nextRef(){
+  const docs = await getDocs();
   const y = new Date().getFullYear().toString().slice(-2);
   if(!docs.length) return `TSD-0001-${y}`;
   const max = Math.max(...docs.map(d=>{ const m=d.ref.match(/TSD-(\d{4})/); return m?+m[1]:0; }));
@@ -308,11 +327,11 @@ function nextRef(){
 // ══════════════════════════
 let editId = null;
 
-function openDocModal(id){
+async function openDocModal(id){
   editId = id || null;
   document.getElementById('dm-err').style.display = 'none';
   if(id){
-    const d = getDocs().find(x => x.id === id);
+    const d = (await getDocs()).find(x => x.id === id);
     document.getElementById('doc-modal-title').textContent = 'Edit Document';
     document.getElementById('dm-ref').value     = d.ref;
     document.getElementById('dm-date').value    = d.date;
@@ -323,7 +342,7 @@ function openDocModal(id){
     document.getElementById('dm-notes').value   = d.notes || '';
   } else {
     document.getElementById('doc-modal-title').textContent = 'Add Completed Document';
-    document.getElementById('dm-ref').value     = nextRef();
+    document.getElementById('dm-ref').value     = await nextRef();
     document.getElementById('dm-date').value    = new Date().toISOString().split('T')[0];
     document.getElementById('dm-client').value  = '';
     document.getElementById('dm-docname').value = '';
@@ -333,7 +352,7 @@ function openDocModal(id){
 }
 function closeDocModal(){ document.getElementById('doc-modal').classList.remove('open'); }
 
-function saveDoc(){
+async function saveDoc(){
   const ref     = document.getElementById('dm-ref').value.trim().toUpperCase();
   const date    = document.getElementById('dm-date').value;
   const client  = document.getElementById('dm-client').value.trim();
@@ -353,7 +372,7 @@ function saveDoc(){
     err.textContent = 'Format must be TSD-0001-26';
     return;
   }
-  let docs = getDocs();
+  let docs = await getDocs();
   if(docs.find(d => d.ref === ref && d.id !== editId)){
     err.style.display = 'block';
     err.textContent = 'This reference number already exists.';
@@ -364,23 +383,23 @@ function saveDoc(){
   } else {
     docs.unshift({id: Date.now().toString(), ref, date, client, docname, type, lang, notes});
   }
-  saveDocs(docs);
+  await saveDocs(docs);
   closeDocModal();
   renderDocs();
   updateDocStats();
 }
 
-function deleteDoc(id){
+async function deleteDoc(id){
   if(!confirm('Delete this record? It will no longer be verifiable on the website.')) return;
-  saveDocs(getDocs().filter(d => d.id !== id));
+  await saveDocs((await getDocs()).filter(d => d.id !== id));
   renderDocs();
   updateDocStats();
 }
 
-function renderDocs(){
+async function renderDocs(){
   const search = document.getElementById('doc-search').value.toLowerCase();
   const tf     = document.getElementById('doc-type-f').value;
-  let docs = getDocs();
+  let docs = await getDocs();
   if(search) docs = docs.filter(d => (d.ref+d.client+(d.docname||'')+(d.notes||'')).toLowerCase().includes(search));
   if(tf)     docs = docs.filter(d => d.type === tf);
   const tb = document.getElementById('docs-tbody');
@@ -403,8 +422,8 @@ function renderDocs(){
   </tr>`).join('');
 }
 
-function updateDocStats(){
-  const docs = getDocs();
+async function updateDocStats(){
+  const docs = await getDocs();
   document.getElementById('doc-stats').innerHTML = `
     <div class="sc"><div class="sc-val">${docs.length}</div><div class="sc-lbl">Total</div></div>
     <div class="sc"><div class="sc-val">${docs.filter(d=>d.type==='Legal').length}</div><div class="sc-lbl">Legal</div></div>
@@ -514,7 +533,7 @@ document.getElementById('doc-modal').addEventListener('click', function(e){ if(e
 document.getElementById('req-modal').addEventListener('click', function(e){ if(e.target===this) closeReqModal(); });
 
 // ── Init ──
-function init(){
+async function init(){
   renderDocs();
   updateDocStats();
   renderRequests();
