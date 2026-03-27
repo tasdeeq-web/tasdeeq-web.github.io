@@ -485,7 +485,7 @@ footer { background: #0a0a0a; color: var(--off-white); padding: 1.4rem 4%; displ
       <p>Fill in your details and submit your request. Once received, we will contact you directly on <strong>WhatsApp</strong> and <strong>email</strong> — usually within minutes, 24/7.</p>
       <div class="crow">
         <div class="crow-l">Email</div>
-        <div class="crow-v"><a href="/cdn-cgi/l/email-protection#224b5156434a51434c434e4b121762454f434b4e0c414d4f"><span class="__cf_email__" data-cfemail="f9908a8d98918a9897989590c9ccb99e94989095d79a9694">[email&#160;protected]</span></a></div>
+        <div class="crow-v"><a href="mailto:istahsanali05@gmail.com">istahsanali05@gmail.com</a></div>
       </div>
       <div class="crow">
         <div class="crow-l">WhatsApp</div>
@@ -579,17 +579,14 @@ footer { background: #0a0a0a; color: var(--off-white); padding: 1.4rem 4%; displ
 
 <button id="fab-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Back to top">↑</button>
 
-
-<button id="fab-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Back to top">↑</button>
-
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
 // ══════════════════════════════════════════════════════
 //  WEB3FORMS ACCESS KEY
 //  Get your free key at https://web3forms.com
 //  Takes 30 seconds — enter your email, copy the key.
 //  Replace YOUR_ACCESS_KEY below with your actual key.
 // ══════════════════════════════════════════════════════
-const W3F_KEY = 'Y6c228c9a-ad64-443b-8223-bd8ce216d534';
+const W3F_KEY = '6c228c9a-ad64-443b-8223-bd8ce216d534';
 
 // ── Scroll to top ──
 window.addEventListener('scroll', () => {
@@ -605,12 +602,15 @@ document.querySelectorAll('.mob-menu a').forEach(a => {
 });
 
 // ══════════════════════════════════════════════════════
-//  DOCUMENT VERIFICATION
-//  Reads from tasdeeq_docs in localStorage.
-//  Documents added in admin.html appear here instantly
-//  because both files share the same domain storage.
 // ══════════════════════════════════════════════════════
-function verifyDoc(){
+//  DOCUMENT VERIFICATION
+//  Reads from JSONBin cloud — works for any customer
+//  anywhere in the world, not just on your device.
+// ══════════════════════════════════════════════════════
+const JBIN_ID  = '69c6d28baa77b81da928105f';
+const JBIN_KEY = '$2a$10$UqpmZhWjZRjEP7jCtKosROFnzjt3ZfUZbK3yHsSF3lpUABhJ0SrXS';
+
+async function verifyDoc(){
   const raw = document.getElementById('docNum').value.trim().toUpperCase();
   const res = document.getElementById('vres');
   res.style.paddingLeft = '12px';
@@ -627,10 +627,13 @@ function verifyDoc(){
   res.style.display='block'; res.style.borderLeft='2px solid var(--mid-grey)';
   res.style.background='transparent'; res.style.color='var(--dark-grey)';
   res.textContent='Checking…';
-  let docs = [];
-  try { docs = JSON.parse(localStorage.getItem('tasdeeq_docs')||'[]'); } catch(e){}
-  const found = docs.find(d => d.ref.toUpperCase() === raw);
-  setTimeout(() => {
+  try {
+    const r = await fetch(`https://api.jsonbin.io/v3/b/${JBIN_ID}/latest`, {
+      headers: { 'X-Access-Key': JBIN_KEY }
+    });
+    const data = await r.json();
+    const docs = data.record?.docs || [];
+    const found = docs.find(d => d.ref.toUpperCase() === raw);
     if(found){
       res.style.borderLeft='2px solid #2a7a4a'; res.style.background='#f0f9f3'; res.style.color='#1a5c34';
       res.innerHTML=`<strong>Verified</strong> — Document on record.<br>
@@ -641,7 +644,10 @@ function verifyDoc(){
       res.style.borderLeft='2px solid #b03030'; res.style.background='#fdf0ef'; res.style.color='#8a2c22';
       res.innerHTML='<strong>Not Found</strong> — No record matches this reference. Contact us if you believe this is an error.';
     }
-  }, 800);
+  } catch(e) {
+    res.style.borderLeft='2px solid #b03030'; res.style.background='#fdf0ef'; res.style.color='#8a2c22';
+    res.innerHTML='<strong>Error</strong> — Could not reach verification server. Please try again.';
+  }
 }
 document.getElementById('docNum').addEventListener('keydown', e => { if(e.key==='Enter') verifyDoc(); });
 
@@ -738,4 +744,22 @@ async function sendRequest(){
     st.style.color='#2a7a4a';
     st.textContent='✓ Request received — we will contact you shortly.';
     _clearForm();
-    consol
+    console.error('Web3Forms error:', err);
+  }
+}
+
+function _clearForm(){
+  ['cf-name','cf-email','cf-whatsapp','cf-msg'].forEach(id => {
+    const el = document.getElementById(id);
+    if(el) el.value = '';
+  });
+  const type = document.getElementById('cf-type');
+  const delivery = document.getElementById('cf-delivery');
+  const lang = document.getElementById('cf-lang');
+  if(type) type.selectedIndex = 0;
+  if(delivery) delivery.selectedIndex = 0;
+  if(lang) lang.selectedIndex = 0;
+}
+</script>
+</body>
+</html>
