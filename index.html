@@ -3,60 +3,27 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<!-- ═══ PRIMARY SEO ═══ -->
 <title>Tasdeeq | Certified Document Translation Services — English, Urdu & Arabic</title>
 <meta name="description" content="Tasdeeq offers certified legal, official and academic document translation in English, Urdu and Arabic. Express delivery in 3 hours. Based in Bahawalpur, Pakistan. Trusted worldwide.">
 <meta name="keywords" content="certified translation, document translation, legal translation, Urdu translation, Arabic translation, English translation, Nikah Nama translation, CNIC translation, degree certificate translation, Bahawalpur, Pakistan translation services, academic translation, official document translation, Tasdeeq">
 <meta name="author" content="Tasdeeq">
 <meta name="robots" content="index, follow">
 <link rel="canonical" href="https://tasdeeq-web.github.io/">
-
-<!-- ═══ OPEN GRAPH (Facebook, WhatsApp, LinkedIn previews) ═══ -->
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://tasdeeq-web.github.io/">
 <meta property="og:title" content="Tasdeeq | Certified Document Translation — English, Urdu & Arabic">
 <meta property="og:description" content="Certified legal, official and academic document translations in English, Urdu and Arabic. Express delivery in 3 hours. Trusted worldwide.">
-<meta property="og:image" content="https://tasdeeq-web.github.io/og-image.png">
-<meta property="og:locale" content="en_US">
 <meta property="og:site_name" content="Tasdeeq">
-
-<!-- ═══ TWITTER / X CARD ═══ -->
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Tasdeeq | Certified Document Translation">
 <meta name="twitter:description" content="Certified translations in English, Urdu and Arabic. Express delivery in 3 hours.">
-<meta name="twitter:image" content="https://tasdeeq-web.github.io/og-image.png">
-
-<!-- ═══ FAVICON — using SVG so no image file needed ═══ -->
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='12' fill='%23000000'/><text y='72' x='50' text-anchor='middle' font-size='58' font-family='Georgia,serif' font-weight='700' fill='%23ffffff'>T</text></svg>">
-<link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='12' fill='%23000000'/><text y='72' x='50' text-anchor='middle' font-size='58' font-family='Georgia,serif' font-weight='700' fill='%23ffffff'>T</text></svg>">
-
-<!-- ═══ STRUCTURED DATA — helps Google understand your business ═══ -->
 <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "ProfessionalService",
-  "name": "Tasdeeq",
-  "description": "Certified legal, official and academic document translation services in English, Urdu and Arabic.",
-  "url": "https://tasdeeq-web.github.io",
-  "email": "istahsanali05@gmail.com",
-  "telephone": "+923097700215",
-  "address": {
-    "@type": "PostalAddress",
-    "addressLocality": "Bahawalpur",
-    "addressRegion": "Punjab",
-    "addressCountry": "PK"
-  },
-  "areaServed": "Worldwide",
-  "availableLanguage": ["English", "Urdu", "Arabic"],
-  "serviceType": ["Legal Document Translation", "Official Document Translation", "Academic Document Translation"],
-  "openingHours": "Mo-Su 00:00-24:00",
-  "priceRange": "$$"
-}
+{"@context":"https://schema.org","@type":"ProfessionalService","name":"Tasdeeq","description":"Certified legal, official and academic document translation services in English, Urdu and Arabic.","url":"https://tasdeeq-web.github.io","email":"istahsanali05@gmail.com","telephone":"+923097700215","address":{"@type":"PostalAddress","addressLocality":"Bahawalpur","addressRegion":"Punjab","addressCountry":"PK"},"areaServed":"Worldwide","availableLanguage":["English","Urdu","Arabic"],"serviceType":["Legal Document Translation","Official Document Translation","Academic Document Translation"],"openingHours":"Mo-Su 00:00-24:00"}
 </script>
-
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
 <style>
 
 /* ── RESET ── */
@@ -269,7 +236,35 @@ section { padding: 50px 4%; }
 .btn-k:hover { opacity: 0.75; }
 #vres { margin-top: 0.9rem; padding: 10px 12px; font-size: 0.75rem; font-weight: 500; display: none; }
 
-
+/* ── REVIEWS ── */
+#reviews { background: #0a0a0a; color: var(--off-white); }
+.rev-controls { display: flex; align-items: center; gap: 0.5rem; margin-top: 1.4rem; flex-wrap: wrap; }
+.filt { font-family: 'Montserrat', sans-serif; font-size: 0.6rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; background: rgba(255,255,255,0.05); color: var(--mid-grey); border: 1px solid rgba(255,255,255,0.11); padding: 5px 11px; cursor: pointer; transition: all 0.15s; }
+.filt:hover, .filt.active { background: var(--off-white); color: #0a0a0a; border-color: var(--off-white); }
+#rev-grid { display: grid; grid-template-columns: repeat(3, 1fr); border: 1px solid rgba(255,255,255,0.1); margin-top: 1.2rem; }
+.rc { padding: 1.5rem 1.4rem; border-right: 1px solid rgba(255,255,255,0.1); transition: background 0.18s; }
+.rc:hover { background: rgba(255,255,255,0.03); }
+.rc-stars { font-size: 0.75rem; letter-spacing: 2px; margin-bottom: 0.7rem; }
+.rc-text { font-size: 0.88rem; color: var(--mid-grey); line-height: 1.7; font-style: italic; margin-bottom: 0.9rem; }
+.rc-author { font-size: 0.8rem; font-weight: 600; letter-spacing: 0.04em; }
+.rc-role { font-size: 0.72rem; color: var(--mid-grey); margin-top: 1px; }
+.btn-all { display: block; margin: 1.2rem auto 0; font-family: 'Montserrat', sans-serif; font-size: 0.65rem; font-weight: 600; letter-spacing: 0.13em; text-transform: uppercase; background: transparent; color: var(--mid-grey); border: 1px solid rgba(255,255,255,0.16); padding: 8px 20px; cursor: pointer; transition: all 0.15s; }
+.btn-all:hover { background: var(--off-white); color: #0a0a0a; border-color: var(--off-white); }
+.rform-wrap { border-top: 1px solid rgba(255,255,255,0.1); margin-top: 1.8rem; padding-top: 1.5rem; }
+.rft { font-size: 0.86rem; font-weight: 600; margin-bottom: 0.22rem; }
+.rfs { font-size: 0.73rem; color: var(--mid-grey); margin-bottom: 1.2rem; }
+.star-row { display: flex; gap: 3px; margin-bottom: 1rem; }
+.sb { background: none; border: none; font-size: 1.1rem; color: rgba(255,255,255,0.16); cursor: pointer; transition: color 0.12s; padding: 0; line-height: 1; }
+.sb.on { color: var(--off-white); }
+.rfg { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+.rfg .s2 { grid-column: 1 / -1; }
+.fid { width: 100%; padding: 10px 12px; border: 1px solid rgba(255,255,255,0.11); font-family: 'Montserrat', sans-serif; font-size: 0.79rem; background: rgba(255,255,255,0.04); color: var(--off-white); outline: none; transition: border-color 0.15s; }
+.fid::placeholder { color: rgba(255,255,255,0.2); }
+.fid:focus { border-color: rgba(255,255,255,0.36); }
+.fld { font-size: 0.57rem; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(255,255,255,0.32); margin-bottom: 4px; display: block; }
+.btn-sub { grid-column: 1 / -1; padding: 11px; background: var(--off-white); color: #0a0a0a; border: none; font-family: 'Montserrat', sans-serif; font-size: 0.65rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; cursor: pointer; transition: opacity 0.15s; }
+.btn-sub:hover { opacity: 0.8; }
+#rfmsg { grid-column: 1 / -1; font-size: 0.72rem; display: none; padding: 8px 0; }
 
 /* ── CONTACT ── */
 #contact { background: var(--off-white); }
@@ -307,15 +302,17 @@ footer { background: #0a0a0a; color: var(--off-white); padding: 1.4rem 4%; displ
   .nav-links { display: none; }
   .nav-cta { display: none; }
   .hamburger { display: flex; }
-  .srv-grid, .dlv-grid, .proc-steps { grid-template-columns: 1fr; }
+  .srv-grid, .dlv-grid, #rev-grid, .proc-steps { grid-template-columns: 1fr; }
   .srv { border-right: none; border-bottom: 1px solid var(--border); }
   .srv:last-child { border-bottom: none; }
+  .rc { border-right: none !important; border-bottom: 1px solid rgba(255,255,255,0.07); }
   .ps { border-right: none; border-bottom: 1px solid var(--border); }
   .ps:last-child { border-bottom: none; }
   .ps-arrow { display: none; }
   .dc { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.1); }
   .dc:last-child { border-bottom: none; }
-  .ctgrid, .cfr2 { grid-template-columns: 1fr; }
+  .ctgrid, .cfr2, .rfg { grid-template-columns: 1fr; }
+  .rfg .s2, .btn-sub { grid-column: 1; }
 }
 
 </style>
@@ -331,6 +328,7 @@ footer { background: #0a0a0a; color: var(--off-white); padding: 1.4rem 4%; displ
       <li><a href="#process">Process</a></li>
       <li><a href="#delivery">Delivery</a></li>
       <li><a href="#verification">Verify</a></li>
+      <li><a href="#reviews">Reviews</a></li>
     </ul>
     <a href="#contact" class="nav-cta">Contact Us</a>
   </div>
@@ -344,6 +342,7 @@ footer { background: #0a0a0a; color: var(--off-white); padding: 1.4rem 4%; displ
   <a href="#process"  onclick="document.getElementById('mobMenu').classList.remove('open')">Process</a>
   <a href="#delivery" onclick="document.getElementById('mobMenu').classList.remove('open')">Delivery</a>
   <a href="#verification" onclick="document.getElementById('mobMenu').classList.remove('open')">Verify</a>
+  <a href="#reviews"  onclick="document.getElementById('mobMenu').classList.remove('open')">Reviews</a>
   <a href="#contact"  onclick="document.getElementById('mobMenu').classList.remove('open')">Contact Us</a>
 </div>
 
@@ -473,7 +472,38 @@ footer { background: #0a0a0a; color: var(--off-white); padding: 1.4rem 4%; displ
   </div>
 </section>
 
-
+<!-- ════ REVIEWS ════ -->
+<section id="reviews">
+  <div class="sl" style="color:var(--mid-grey)">Client Reviews</div>
+  <h2 class="st">Trusted by <strong>clients worldwide.</strong></h2>
+  <div class="rule" style="background:var(--off-white)"></div>
+  <div class="rev-controls">
+    <button class="filt active" data-f="newest">Newest First</button>
+    <button class="filt" data-f="oldest">Oldest First</button>
+    <button class="filt" data-f="best">Highest Rated</button>
+    <button class="filt" data-f="worst">Lowest Rated</button>
+  </div>
+  <div id="rev-grid"></div>
+  <button class="btn-all" id="btn-show-all" onclick="toggleAll()">View All Reviews</button>
+  <div class="rform-wrap">
+    <div class="rft">Share Your Experience</div>
+    <p class="rfs">Your feedback helps others make informed decisions.</p>
+    <div class="star-row">
+      <button class="sb" data-s="1">★</button>
+      <button class="sb" data-s="2">★</button>
+      <button class="sb" data-s="3">★</button>
+      <button class="sb" data-s="4">★</button>
+      <button class="sb" data-s="5">★</button>
+    </div>
+    <div class="rfg">
+      <div><label class="fld">Full Name</label><input class="fid" id="r-name" type="text" placeholder="Your name"></div>
+      <div><label class="fld">Location</label><input class="fid" id="r-loc" type="text" placeholder="City, Country"></div>
+      <div class="s2"><label class="fld">Your Review</label><textarea class="fid" id="r-text" rows="3" placeholder="Describe your experience..." style="resize:vertical"></textarea></div>
+      <button class="btn-sub" onclick="submitReview()">Submit Review</button>
+      <div id="rfmsg"></div>
+    </div>
+  </div>
+</section>
 
 <!-- ════ CONTACT ════ -->
 <section id="contact">
@@ -579,41 +609,57 @@ footer { background: #0a0a0a; color: var(--off-white); padding: 1.4rem 4%; displ
 
 <button id="fab-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Back to top">↑</button>
 
+
+<button id="fab-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Back to top">↑</button>
+
 <script>
-// ══════════════════════════════════════════════════════
-//  WEB3FORMS ACCESS KEY
-//  Get your free key at https://web3forms.com
-//  Takes 30 seconds — enter your email, copy the key.
-//  Replace YOUR_ACCESS_KEY below with your actual key.
-// ══════════════════════════════════════════════════════
-const W3F_KEY = '6c228c9a-ad64-443b-8223-bd8ce216d534';
+// ══════════════════════════════════════════════════
+//  CONFIGURATION — do not share these keys publicly
+// ══════════════════════════════════════════════════
+const W3F_KEY  = '6c228c9a-ad64-443b-8223-bd8ce216d534';  // Web3Forms
+const JBIN_ID  = '69c6d28baa77b81da928105f';               // JSONBin bin ID
+const JBIN_KEY = '$2a$10$UqpmZhWjZRjEP7jCtKosROFnzjt3ZfUZbK3yHsSF3lpUABhJ0SrXS'; // JSONBin key
+
+// ── JSONBin helpers ──
+// Bin stores: { docs: [...], requests: [...] }
+async function jbinGet(){
+  try {
+    const r = await fetch(`https://api.jsonbin.io/v3/b/${JBIN_ID}/latest`,{
+      headers:{'X-Access-Key':JBIN_KEY}
+    });
+    const d = await r.json();
+    return { docs: d.record?.docs||[], requests: d.record?.requests||[] };
+  } catch(e){ return {docs:[], requests:[]}; }
+}
+async function jbinSet(data){
+  await fetch(`https://api.jsonbin.io/v3/b/${JBIN_ID}`,{
+    method:'PUT',
+    headers:{'Content-Type':'application/json','X-Access-Key':JBIN_KEY},
+    body:JSON.stringify(data)
+  });
+}
 
 // ── Scroll to top ──
-window.addEventListener('scroll', () => {
-  document.getElementById('fab-top').classList.toggle('vis', window.scrollY > 400);
-}, {passive:true});
+window.addEventListener('scroll',()=>{
+  document.getElementById('fab-top').classList.toggle('vis', window.scrollY>400);
+},{passive:true});
 
 // ── Mobile menu ──
-document.querySelector('.hamburger').addEventListener('click', () => {
+document.querySelector('.hamburger').addEventListener('click',()=>{
   document.getElementById('mobMenu').classList.toggle('open');
 });
-document.querySelectorAll('.mob-menu a').forEach(a => {
-  a.addEventListener('click', () => document.getElementById('mobMenu').classList.remove('open'));
+document.querySelectorAll('.mob-menu a').forEach(a=>{
+  a.addEventListener('click',()=>document.getElementById('mobMenu').classList.remove('open'));
 });
 
-// ══════════════════════════════════════════════════════
-// ══════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════
 //  DOCUMENT VERIFICATION
-//  Reads from JSONBin cloud — works for any customer
-//  anywhere in the world, not just on your device.
-// ══════════════════════════════════════════════════════
-const JBIN_ID  = '69c6d28baa77b81da928105f';
-const JBIN_KEY = '$2a$10$UqpmZhWjZRjEP7jCtKosROFnzjt3ZfUZbK3yHsSF3lpUABhJ0SrXS';
-
+//  Reads from JSONBin — works on every device worldwide
+// ══════════════════════════════════════════════════
 async function verifyDoc(){
   const raw = document.getElementById('docNum').value.trim().toUpperCase();
   const res = document.getElementById('vres');
-  res.style.paddingLeft = '12px';
+  res.style.paddingLeft='12px';
   if(!raw){
     res.style.display='block'; res.style.borderLeft='2px solid #999';
     res.style.background='transparent'; res.style.color='var(--dark-grey)';
@@ -628,12 +674,8 @@ async function verifyDoc(){
   res.style.background='transparent'; res.style.color='var(--dark-grey)';
   res.textContent='Checking…';
   try {
-    const r = await fetch(`https://api.jsonbin.io/v3/b/${JBIN_ID}/latest`, {
-      headers: { 'X-Access-Key': JBIN_KEY }
-    });
-    const data = await r.json();
-    const docs = data.record?.docs || [];
-    const found = docs.find(d => d.ref.toUpperCase() === raw);
+    const {docs} = await jbinGet();
+    const found = docs.find(d=>d.ref.toUpperCase()===raw);
     if(found){
       res.style.borderLeft='2px solid #2a7a4a'; res.style.background='#f0f9f3'; res.style.color='#1a5c34';
       res.innerHTML=`<strong>Verified</strong> — Document on record.<br>
@@ -644,25 +686,25 @@ async function verifyDoc(){
       res.style.borderLeft='2px solid #b03030'; res.style.background='#fdf0ef'; res.style.color='#8a2c22';
       res.innerHTML='<strong>Not Found</strong> — No record matches this reference. Contact us if you believe this is an error.';
     }
-  } catch(e) {
+  } catch(e){
     res.style.borderLeft='2px solid #b03030'; res.style.background='#fdf0ef'; res.style.color='#8a2c22';
     res.innerHTML='<strong>Error</strong> — Could not reach verification server. Please try again.';
   }
 }
-document.getElementById('docNum').addEventListener('keydown', e => { if(e.key==='Enter') verifyDoc(); });
+document.getElementById('docNum').addEventListener('keydown',e=>{if(e.key==='Enter')verifyDoc();});
 
-// ══════════════════════════════════════════════════════
+// ══════════════════════════════════════════════════
 //  CONTACT FORM
-//  1. Saves request to localStorage → appears in admin
-//     panel immediately (same domain = shared storage)
+//  1. Saves request to JSONBin → appears in admin
+//     panel from ANY device anywhere in the world
 //  2. Sends email to istahsanali05@gmail.com via
-//     Web3Forms automatically (no client action needed)
-// ══════════════════════════════════════════════════════
+//     Web3Forms — no client action needed
+// ══════════════════════════════════════════════════
 async function sendRequest(){
   const name     = document.getElementById('cf-name').value.trim();
   const email    = document.getElementById('cf-email').value.trim();
   const whatsapp = document.getElementById('cf-whatsapp').value.trim();
-  const type     = document.getElementById('cf-type').value || 'Not specified';
+  const type     = document.getElementById('cf-type').value||'Not specified';
   const delivery = document.getElementById('cf-delivery').value;
   const lang     = document.getElementById('cf-lang').value;
   const msg      = document.getElementById('cf-msg').value.trim();
@@ -671,94 +713,67 @@ async function sendRequest(){
   const spinner  = document.getElementById('spinner');
   const btnText  = document.getElementById('btnText');
 
-  // Validation
-  if(!name || !email || !msg){
-    st.style.color='#c0392b';
-    st.textContent='Please fill in your name, email and message.';
-    return;
+  if(!name||!email||!msg){
+    st.style.color='#c0392b'; st.textContent='Please fill in your name, email and message.'; return;
   }
   if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
-    st.style.color='#c0392b';
-    st.textContent='Please enter a valid email address.';
-    return;
+    st.style.color='#c0392b'; st.textContent='Please enter a valid email address.'; return;
   }
 
   btn.disabled=true; spinner.style.display='block'; btnText.textContent='Sending…'; st.textContent='';
 
-  // ── Step 1: Save to localStorage for admin panel ──
   const reqObj = {
-    id       : Date.now().toString(),
+    id      : Date.now().toString(),
     name, email,
-    whatsapp : whatsapp || '',
+    whatsapp: whatsapp||'',
     type, delivery, lang,
-    message  : msg,
-    date     : new Date().toLocaleDateString('en-GB'),
-    status   : 'New'
-  };
-  try {
-    const existing = JSON.parse(localStorage.getItem('tasdeeq_requests')||'[]');
-    existing.unshift(reqObj);
-    localStorage.setItem('tasdeeq_requests', JSON.stringify(existing));
-  } catch(e){}
-
-  // ── Step 2: Send email via Web3Forms ──
-  const payload = {
-    access_key : W3F_KEY,
-    subject    : `New Request — ${type} | ${delivery} | ${name}`,
-    from_name  : 'Tasdeeq Website',
-    name, email,
-    whatsapp   : whatsapp || 'Not provided',
-    document   : type,
-    delivery, language: lang,
-    message    : msg,
-    replyto    : email,
+    message : msg,
+    date    : new Date().toLocaleDateString('en-GB'),
+    status  : 'New'
   };
 
-  // If key not configured → skip Web3Forms, just confirm localStorage save
-  if(W3F_KEY === 'YOUR_ACCESS_KEY'){
-    btn.disabled=false; spinner.style.display='none'; btnText.textContent='Send Request';
-    st.style.color='#2a7a4a';
-    st.textContent='✓ Request received — we will contact you shortly.';
-    _clearForm();
-    return;
-  }
-
+  // ── Save to JSONBin (cross-device admin sync) ──
   try {
-    const resp = await fetch('https://api.web3forms.com/submit', {
-      method : 'POST',
-      headers: {'Content-Type':'application/json', 'Accept':'application/json'},
-      body   : JSON.stringify(payload),
+    const current = await jbinGet();
+    current.requests = current.requests||[];
+    current.requests.unshift(reqObj);
+    await jbinSet(current);
+  } catch(e){ console.warn('JSONBin save failed:', e); }
+
+  // ── Send email via Web3Forms ──
+  try {
+    const resp = await fetch('https://api.web3forms.com/submit',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Accept':'application/json'},
+      body:JSON.stringify({
+        access_key : W3F_KEY,
+        subject    : `New Request — ${type} | ${delivery} | ${name}`,
+        from_name  : 'Tasdeeq Website',
+        name, email,
+        whatsapp   : whatsapp||'Not provided',
+        document   : type,
+        delivery,
+        language   : lang,
+        message    : msg,
+        replyto    : email,
+      })
     });
     const data = await resp.json();
-    btn.disabled=false; spinner.style.display='none'; btnText.textContent='Send Request';
-    if(data.success){
-      st.style.color='#2a7a4a';
-      st.textContent='✓ Request sent — we will contact you shortly.';
-      _clearForm();
-    } else {
-      throw new Error(data.message||'error');
-    }
-  } catch(err){
-    btn.disabled=false; spinner.style.display='none'; btnText.textContent='Send Request';
-    // Request already saved to localStorage — still inform client it worked
-    st.style.color='#2a7a4a';
-    st.textContent='✓ Request received — we will contact you shortly.';
-    _clearForm();
-    console.error('Web3Forms error:', err);
-  }
+    if(!data.success) throw new Error(data.message||'error');
+  } catch(e){ console.warn('Web3Forms error:', e); }
+
+  btn.disabled=false; spinner.style.display='none'; btnText.textContent='Send Request';
+  st.style.color='#2a7a4a';
+  st.textContent='✓ Request sent — we will contact you shortly.';
+  _clearForm();
 }
 
 function _clearForm(){
-  ['cf-name','cf-email','cf-whatsapp','cf-msg'].forEach(id => {
-    const el = document.getElementById(id);
-    if(el) el.value = '';
+  ['cf-name','cf-email','cf-whatsapp','cf-msg'].forEach(id=>{
+    const el=document.getElementById(id); if(el) el.value='';
   });
-  const type = document.getElementById('cf-type');
-  const delivery = document.getElementById('cf-delivery');
-  const lang = document.getElementById('cf-lang');
-  if(type) type.selectedIndex = 0;
-  if(delivery) delivery.selectedIndex = 0;
-  if(lang) lang.selectedIndex = 0;
+  const t=document.getElementById('cf-type');
+  if(t) t.selectedIndex=0;
 }
 </script>
 </body>
