@@ -236,36 +236,6 @@ section { padding: 50px 4%; }
 .btn-k:hover { opacity: 0.75; }
 #vres { margin-top: 0.9rem; padding: 10px 12px; font-size: 0.75rem; font-weight: 500; display: none; }
 
-/* ── REVIEWS ── */
-#reviews { background: #0a0a0a; color: var(--off-white); }
-.rev-controls { display: flex; align-items: center; gap: 0.5rem; margin-top: 1.4rem; flex-wrap: wrap; }
-.filt { font-family: 'Montserrat', sans-serif; font-size: 0.6rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; background: rgba(255,255,255,0.05); color: var(--mid-grey); border: 1px solid rgba(255,255,255,0.11); padding: 5px 11px; cursor: pointer; transition: all 0.15s; }
-.filt:hover, .filt.active { background: var(--off-white); color: #0a0a0a; border-color: var(--off-white); }
-#rev-grid { display: grid; grid-template-columns: repeat(3, 1fr); border: 1px solid rgba(255,255,255,0.1); margin-top: 1.2rem; }
-.rc { padding: 1.5rem 1.4rem; border-right: 1px solid rgba(255,255,255,0.1); transition: background 0.18s; }
-.rc:hover { background: rgba(255,255,255,0.03); }
-.rc-stars { font-size: 0.75rem; letter-spacing: 2px; margin-bottom: 0.7rem; }
-.rc-text { font-size: 0.88rem; color: var(--mid-grey); line-height: 1.7; font-style: italic; margin-bottom: 0.9rem; }
-.rc-author { font-size: 0.8rem; font-weight: 600; letter-spacing: 0.04em; }
-.rc-role { font-size: 0.72rem; color: var(--mid-grey); margin-top: 1px; }
-.btn-all { display: block; margin: 1.2rem auto 0; font-family: 'Montserrat', sans-serif; font-size: 0.65rem; font-weight: 600; letter-spacing: 0.13em; text-transform: uppercase; background: transparent; color: var(--mid-grey); border: 1px solid rgba(255,255,255,0.16); padding: 8px 20px; cursor: pointer; transition: all 0.15s; }
-.btn-all:hover { background: var(--off-white); color: #0a0a0a; border-color: var(--off-white); }
-.rform-wrap { border-top: 1px solid rgba(255,255,255,0.1); margin-top: 1.8rem; padding-top: 1.5rem; }
-.rft { font-size: 0.86rem; font-weight: 600; margin-bottom: 0.22rem; }
-.rfs { font-size: 0.73rem; color: var(--mid-grey); margin-bottom: 1.2rem; }
-.star-row { display: flex; gap: 3px; margin-bottom: 1rem; }
-.sb { background: none; border: none; font-size: 1.1rem; color: rgba(255,255,255,0.16); cursor: pointer; transition: color 0.12s; padding: 0; line-height: 1; }
-.sb.on { color: var(--off-white); }
-.rfg { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
-.rfg .s2 { grid-column: 1 / -1; }
-.fid { width: 100%; padding: 10px 12px; border: 1px solid rgba(255,255,255,0.11); font-family: 'Montserrat', sans-serif; font-size: 0.79rem; background: rgba(255,255,255,0.04); color: var(--off-white); outline: none; transition: border-color 0.15s; }
-.fid::placeholder { color: rgba(255,255,255,0.2); }
-.fid:focus { border-color: rgba(255,255,255,0.36); }
-.fld { font-size: 0.57rem; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: rgba(255,255,255,0.32); margin-bottom: 4px; display: block; }
-.btn-sub { grid-column: 1 / -1; padding: 11px; background: var(--off-white); color: #0a0a0a; border: none; font-family: 'Montserrat', sans-serif; font-size: 0.65rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; cursor: pointer; transition: opacity 0.15s; }
-.btn-sub:hover { opacity: 0.8; }
-#rfmsg { grid-column: 1 / -1; font-size: 0.72rem; display: none; padding: 8px 0; }
-
 /* ── CONTACT ── */
 #contact { background: var(--off-white); }
 .ctgrid { display: grid; grid-template-columns: 1fr 1.6fr; gap: 3rem; margin-top: 1.6rem; align-items: start; }
@@ -302,17 +272,15 @@ footer { background: #0a0a0a; color: var(--off-white); padding: 1.4rem 4%; displ
   .nav-links { display: none; }
   .nav-cta { display: none; }
   .hamburger { display: flex; }
-  .srv-grid, .dlv-grid, #rev-grid, .proc-steps { grid-template-columns: 1fr; }
+  .srv-grid, .dlv-grid, .proc-steps { grid-template-columns: 1fr; }
   .srv { border-right: none; border-bottom: 1px solid var(--border); }
   .srv:last-child { border-bottom: none; }
-  .rc { border-right: none !important; border-bottom: 1px solid rgba(255,255,255,0.07); }
   .ps { border-right: none; border-bottom: 1px solid var(--border); }
   .ps:last-child { border-bottom: none; }
   .ps-arrow { display: none; }
   .dc { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.1); }
   .dc:last-child { border-bottom: none; }
-  .ctgrid, .cfr2, .rfg { grid-template-columns: 1fr; }
-  .rfg .s2, .btn-sub { grid-column: 1; }
+  .ctgrid, .cfr2 { grid-template-columns: 1fr; }
 }
 
 </style>
@@ -328,7 +296,6 @@ footer { background: #0a0a0a; color: var(--off-white); padding: 1.4rem 4%; displ
       <li><a href="#process">Process</a></li>
       <li><a href="#delivery">Delivery</a></li>
       <li><a href="#verification">Verify</a></li>
-      <li><a href="#reviews">Reviews</a></li>
     </ul>
     <a href="#contact" class="nav-cta">Contact Us</a>
   </div>
@@ -342,7 +309,6 @@ footer { background: #0a0a0a; color: var(--off-white); padding: 1.4rem 4%; displ
   <a href="#process"  onclick="document.getElementById('mobMenu').classList.remove('open')">Process</a>
   <a href="#delivery" onclick="document.getElementById('mobMenu').classList.remove('open')">Delivery</a>
   <a href="#verification" onclick="document.getElementById('mobMenu').classList.remove('open')">Verify</a>
-  <a href="#reviews"  onclick="document.getElementById('mobMenu').classList.remove('open')">Reviews</a>
   <a href="#contact"  onclick="document.getElementById('mobMenu').classList.remove('open')">Contact Us</a>
 </div>
 
@@ -472,39 +438,6 @@ footer { background: #0a0a0a; color: var(--off-white); padding: 1.4rem 4%; displ
   </div>
 </section>
 
-<!-- ════ REVIEWS ════ -->
-<section id="reviews">
-  <div class="sl" style="color:var(--mid-grey)">Client Reviews</div>
-  <h2 class="st">Trusted by <strong>clients worldwide.</strong></h2>
-  <div class="rule" style="background:var(--off-white)"></div>
-  <div class="rev-controls">
-    <button class="filt active" data-f="newest">Newest First</button>
-    <button class="filt" data-f="oldest">Oldest First</button>
-    <button class="filt" data-f="best">Highest Rated</button>
-    <button class="filt" data-f="worst">Lowest Rated</button>
-  </div>
-  <div id="rev-grid"></div>
-  <button class="btn-all" id="btn-show-all" onclick="toggleAll()">View All Reviews</button>
-  <div class="rform-wrap">
-    <div class="rft">Share Your Experience</div>
-    <p class="rfs">Your feedback helps others make informed decisions.</p>
-    <div class="star-row">
-      <button class="sb" data-s="1">★</button>
-      <button class="sb" data-s="2">★</button>
-      <button class="sb" data-s="3">★</button>
-      <button class="sb" data-s="4">★</button>
-      <button class="sb" data-s="5">★</button>
-    </div>
-    <div class="rfg">
-      <div><label class="fld">Full Name</label><input class="fid" id="r-name" type="text" placeholder="Your name"></div>
-      <div><label class="fld">Location</label><input class="fid" id="r-loc" type="text" placeholder="City, Country"></div>
-      <div class="s2"><label class="fld">Your Review</label><textarea class="fid" id="r-text" rows="3" placeholder="Describe your experience..." style="resize:vertical"></textarea></div>
-      <button class="btn-sub" onclick="submitReview()">Submit Review</button>
-      <div id="rfmsg"></div>
-    </div>
-  </div>
-</section>
-
 <!-- ════ CONTACT ════ -->
 <section id="contact">
   <div class="sl">Get In Touch</div>
@@ -606,9 +539,6 @@ footer { background: #0a0a0a; color: var(--off-white); padding: 1.4rem 4%; displ
     <a href="#contact">Contact</a>
   </nav>
 </footer>
-
-<button id="fab-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Back to top">↑</button>
-
 
 <button id="fab-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Back to top">↑</button>
 
