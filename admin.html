@@ -61,6 +61,7 @@ body{font-family:'Montserrat',sans-serif;background:var(--w);color:var(--k);line
 .t-btn{font-family:'Montserrat',sans-serif;font-size:0.62rem;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;background:var(--k);color:var(--w);border:none;padding:9px 16px;cursor:pointer;transition:opacity .15s;white-space:nowrap}
 .t-btn:hover{opacity:.75}
 .t-btn.sec{background:var(--gd)}
+.t-btn.ref{background:#1a6a3a}
 
 /* TABLE */
 .tbl-wrap{overflow-x:auto;border:1px solid var(--bd)}
@@ -71,6 +72,7 @@ td{padding:9px 12px;border-bottom:1px solid var(--bd);vertical-align:middle}
 tr:last-child td{border-bottom:none}
 tr:hover td{background:rgba(0,0,0,0.022)}
 .empty{padding:2.5rem;text-align:center;color:var(--gm);font-size:0.78rem;line-height:1.7}
+.loading-row td{text-align:center;color:var(--gm);font-style:italic;padding:2rem}
 
 /* BADGES */
 .badge{display:inline-block;font-size:0.56rem;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;padding:2px 8px}
@@ -146,7 +148,7 @@ select.mfi{cursor:pointer;appearance:none}
   <div class="panel active" id="panel-docs">
     <div class="ph">
       <div class="ph-title">Completed Documents</div>
-      <div class="ph-sub">Every document you add here becomes instantly verifiable on the main website. The reference number and document name show in the verification result.</div>
+      <div class="ph-sub">Every document you add here is saved to the cloud and becomes instantly verifiable on the website from any device worldwide.</div>
     </div>
     <div class="stats-row" id="doc-stats"></div>
     <div class="toolbar">
@@ -163,7 +165,7 @@ select.mfi{cursor:pointer;appearance:none}
           <th>Reference</th><th>Client Name</th><th>Document Name</th>
           <th>Type</th><th>Language</th><th>Completed</th><th>Notes</th><th></th>
         </tr></thead>
-        <tbody id="docs-tbody"></tbody>
+        <tbody id="docs-tbody"><tr class="loading-row"><td colspan="8">Loading…</td></tr></tbody>
       </table>
     </div>
   </div>
@@ -172,10 +174,7 @@ select.mfi{cursor:pointer;appearance:none}
   <div class="panel" id="panel-requests">
     <div class="ph">
       <div class="ph-title">Client Requests</div>
-      <div class="ph-sub">
-        All requests submitted via the contact form appear here automatically — because your website and admin panel share the same domain storage.<br>
-        You also receive an email notification at <strong>istahsanali05@gmail.com</strong> for every submission.
-      </div>
+      <div class="ph-sub">All requests submitted via the contact form — saved to the cloud instantly. You also receive an email at <strong>istahsanali05@gmail.com</strong> for every submission.</div>
     </div>
     <div class="stats-row" id="req-stats"></div>
     <div class="toolbar">
@@ -184,6 +183,7 @@ select.mfi{cursor:pointer;appearance:none}
         <option value="">All Status</option>
         <option>New</option><option>In Progress</option><option>Completed</option>
       </select>
+      <button class="t-btn ref" onclick="loadRequests()">↻ Refresh</button>
       <button class="t-btn sec" onclick="clearCompleted()">Clear Completed</button>
     </div>
     <div class="tbl-wrap">
@@ -192,7 +192,7 @@ select.mfi{cursor:pointer;appearance:none}
           <th>Date</th><th>Name</th><th>Email</th><th>WhatsApp</th>
           <th>Document</th><th>Delivery</th><th>Status</th><th></th>
         </tr></thead>
-        <tbody id="req-tbody"></tbody>
+        <tbody id="req-tbody"><tr class="loading-row"><td colspan="8">Loading…</td></tr></tbody>
       </table>
     </div>
   </div>
@@ -237,7 +237,7 @@ select.mfi{cursor:pointer;appearance:none}
     <div class="merr" id="dm-err"></div>
     <div class="mactions">
       <button class="m-cancel" onclick="closeDocModal()">Cancel</button>
-      <button class="m-save" onclick="saveDoc()">Save Document</button>
+      <button class="m-save" id="doc-save-btn" onclick="saveDoc()">Save Document</button>
     </div>
   </div>
 </div>
@@ -250,164 +250,107 @@ select.mfi{cursor:pointer;appearance:none}
     <div class="msg-box" id="req-msg"></div>
     <div class="mactions">
       <button class="m-cancel" onclick="closeReqModal()">Close</button>
-      <button class="m-save amber" id="btn-prog" onclick="setStatus('In Progress')">Mark In Progress</button>
-      <button class="m-save green" id="btn-done" onclick="setStatus('Completed')">Mark Completed</button>
+      <button class="m-save amber" id="btn-prog" onclick="setReqStatus('In Progress')">Mark In Progress</button>
+      <button class="m-save green" id="btn-done" onclick="setReqStatus('Completed')">Mark Completed</button>
     </div>
   </div>
 </div>
 
 <script>
-// ── CHANGE THIS PASSWORD ──
+// ══════════════════════════════════════════════
+//  CHANGE PASSWORD BEFORE GOING LIVE
+// ══════════════════════════════════════════════
 const ADMIN_PASS = 'tasdeeq2025';
+
+// ── JSONBin config (same bin as main site) ──
+const JBIN_ID  = '69c6d28baa77b81da928105f';
+const JBIN_KEY = '$2a$10$UqpmZhWjZRjEP7jCtKosROFnzjt3ZfUZbK3yHsSF3lpUABhJ0SrXS';
+
+// In-memory cache to avoid redundant fetches
+let _cache = null;
+
+async function jbinGet(){
+  if(_cache) return _cache;
+  try {
+    const r = await fetch(`https://api.jsonbin.io/v3/b/${JBIN_ID}/latest`,{
+      headers:{'X-Access-Key':JBIN_KEY}
+    });
+    const d = await r.json();
+    _cache = { docs: d.record?.docs||[], requests: d.record?.requests||[] };
+    return _cache;
+  } catch(e){ return {docs:[],requests:[]}; }
+}
+
+async function jbinSet(data){
+  _cache = data;
+  await fetch(`https://api.jsonbin.io/v3/b/${JBIN_ID}`,{
+    method:'PUT',
+    headers:{'Content-Type':'application/json','X-Access-Key':JBIN_KEY},
+    body:JSON.stringify(data)
+  });
+}
 
 // ── Auth ──
 function login(){
   if(document.getElementById('pw').value === ADMIN_PASS){
-    document.getElementById('login-screen').style.display = 'none';
-    document.getElementById('app').style.display = 'block';
+    document.getElementById('login-screen').style.display='none';
+    document.getElementById('app').style.display='block';
     init();
   } else {
-    document.getElementById('lb-err').style.display = 'block';
-    document.getElementById('pw').value = '';
+    document.getElementById('lb-err').style.display='block';
+    document.getElementById('pw').value='';
     document.getElementById('pw').focus();
   }
 }
 function logout(){
-  document.getElementById('app').style.display = 'none';
-  document.getElementById('login-screen').style.display = 'flex';
-  document.getElementById('pw').value = '';
+  _cache=null;
+  document.getElementById('app').style.display='none';
+  document.getElementById('login-screen').style.display='flex';
+  document.getElementById('pw').value='';
 }
 
 // ── Tabs ──
-async function switchTab(el){
-  document.querySelectorAll('.tab').forEach(b => b.classList.remove('active'));
-  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+function switchTab(el){
+  document.querySelectorAll('.tab').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
   el.classList.add('active');
-  const t = el.dataset.tab;
+  const t=el.dataset.tab;
   document.getElementById('panel-'+t).classList.add('active');
-  if(t === 'docs'){ await renderDocs(); await updateDocStats(); } else { renderRequests(); updateReqStats(); }
+  t==='docs' ? loadDocs() : loadRequests();
 }
-
-// ── JSONBin config (documents live in cloud so customers can verify) ──
-const JBIN_ID  = '69c6d28baa77b81da928105f';
-const JBIN_KEY = '$2a$10$UqpmZhWjZRjEP7jCtKosROFnzjt3ZfUZbK3yHsSF3lpUABhJ0SrXS';
-
-async function getDocs(){
-  try {
-    const r = await fetch(`https://api.jsonbin.io/v3/b/${JBIN_ID}/latest`, {
-      headers: { 'X-Access-Key': JBIN_KEY }
-    });
-    const data = await r.json();
-    return data.record?.docs || [];
-  } catch(e){ return []; }
-}
-async function saveDocs(docs){
-  await fetch(`https://api.jsonbin.io/v3/b/${JBIN_ID}`, {
-    method: 'PUT',
-    headers: { 'Content-Type': 'application/json', 'X-Access-Key': JBIN_KEY },
-    body: JSON.stringify({ docs })
-  });
-}
-
-// ── Requests stay in localStorage (same domain = works fine) ──
-function getReqs(){ try{ return JSON.parse(localStorage.getItem('tasdeeq_requests')||'[]'); }catch{ return []; } }
-function saveReqs(r){ localStorage.setItem('tasdeeq_requests', JSON.stringify(r)); }
 
 // ── Auto-reference ──
-async function nextRef(){
-  const docs = await getDocs();
-  const y = new Date().getFullYear().toString().slice(-2);
+function nextRef(docs){
+  const y=new Date().getFullYear().toString().slice(-2);
   if(!docs.length) return `TSD-0001-${y}`;
-  const max = Math.max(...docs.map(d=>{ const m=d.ref.match(/TSD-(\d{4})/); return m?+m[1]:0; }));
+  const max=Math.max(...docs.map(d=>{const m=d.ref.match(/TSD-(\d{4})/);return m?+m[1]:0;}));
   return `TSD-${String(max+1).padStart(4,'0')}-${y}`;
 }
 
-// ══════════════════════════
+// ══════════════════════════════════════
 //  DOCUMENTS
-// ══════════════════════════
-let editId = null;
+// ══════════════════════════════════════
+let editId=null, cachedDocs=[];
 
-async function openDocModal(id){
-  editId = id || null;
-  document.getElementById('dm-err').style.display = 'none';
-  if(id){
-    const d = (await getDocs()).find(x => x.id === id);
-    document.getElementById('doc-modal-title').textContent = 'Edit Document';
-    document.getElementById('dm-ref').value     = d.ref;
-    document.getElementById('dm-date').value    = d.date;
-    document.getElementById('dm-client').value  = d.client;
-    document.getElementById('dm-docname').value = d.docname || '';
-    document.getElementById('dm-type').value    = d.type;
-    document.getElementById('dm-lang').value    = d.lang || 'Urdu to English';
-    document.getElementById('dm-notes').value   = d.notes || '';
-  } else {
-    document.getElementById('doc-modal-title').textContent = 'Add Completed Document';
-    document.getElementById('dm-ref').value     = await nextRef();
-    document.getElementById('dm-date').value    = new Date().toISOString().split('T')[0];
-    document.getElementById('dm-client').value  = '';
-    document.getElementById('dm-docname').value = '';
-    document.getElementById('dm-notes').value   = '';
-  }
-  document.getElementById('doc-modal').classList.add('open');
-}
-function closeDocModal(){ document.getElementById('doc-modal').classList.remove('open'); }
-
-async function saveDoc(){
-  const ref     = document.getElementById('dm-ref').value.trim().toUpperCase();
-  const date    = document.getElementById('dm-date').value;
-  const client  = document.getElementById('dm-client').value.trim();
-  const docname = document.getElementById('dm-docname').value.trim();
-  const type    = document.getElementById('dm-type').value;
-  const lang    = document.getElementById('dm-lang').value;
-  const notes   = document.getElementById('dm-notes').value.trim();
-  const err     = document.getElementById('dm-err');
-
-  if(!ref || !date || !client || !docname){
-    err.style.display = 'block';
-    err.textContent = 'Reference, date, client name and document name are all required.';
-    return;
-  }
-  if(!/^TSD-\d{4}-\d{2}$/.test(ref)){
-    err.style.display = 'block';
-    err.textContent = 'Format must be TSD-0001-26';
-    return;
-  }
-  let docs = await getDocs();
-  if(docs.find(d => d.ref === ref && d.id !== editId)){
-    err.style.display = 'block';
-    err.textContent = 'This reference number already exists.';
-    return;
-  }
-  if(editId){
-    docs = docs.map(d => d.id === editId ? {...d,ref,date,client,docname,type,lang,notes} : d);
-  } else {
-    docs.unshift({id: Date.now().toString(), ref, date, client, docname, type, lang, notes});
-  }
-  await saveDocs(docs);
-  closeDocModal();
+async function loadDocs(){
+  const {docs}=await jbinGet();
+  cachedDocs=docs;
   renderDocs();
   updateDocStats();
 }
 
-async function deleteDoc(id){
-  if(!confirm('Delete this record? It will no longer be verifiable on the website.')) return;
-  await saveDocs((await getDocs()).filter(d => d.id !== id));
-  renderDocs();
-  updateDocStats();
-}
-
-async function renderDocs(){
-  const search = document.getElementById('doc-search').value.toLowerCase();
-  const tf     = document.getElementById('doc-type-f').value;
-  let docs = await getDocs();
-  if(search) docs = docs.filter(d => (d.ref+d.client+(d.docname||'')+(d.notes||'')).toLowerCase().includes(search));
-  if(tf)     docs = docs.filter(d => d.type === tf);
-  const tb = document.getElementById('docs-tbody');
+function renderDocs(){
+  const search=document.getElementById('doc-search').value.toLowerCase();
+  const tf=document.getElementById('doc-type-f').value;
+  let docs=[...cachedDocs];
+  if(search) docs=docs.filter(d=>(d.ref+d.client+(d.docname||'')+(d.notes||'')).toLowerCase().includes(search));
+  if(tf) docs=docs.filter(d=>d.type===tf);
+  const tb=document.getElementById('docs-tbody');
   if(!docs.length){
-    tb.innerHTML = `<tr><td colspan="8"><div class="empty">No documents yet.<br>Add your first completed job using the button above.</div></td></tr>`;
+    tb.innerHTML=`<tr><td colspan="8"><div class="empty">No documents yet.<br>Add your first completed job using the button above.</div></td></tr>`;
     return;
   }
-  tb.innerHTML = docs.map(d => `<tr>
+  tb.innerHTML=docs.map(d=>`<tr>
     <td><strong style="font-size:0.78rem">${d.ref}</strong></td>
     <td>${d.client}</td>
     <td><strong>${d.docname||'—'}</strong></td>
@@ -422,40 +365,116 @@ async function renderDocs(){
   </tr>`).join('');
 }
 
-async function updateDocStats(){
-  const docs = await getDocs();
-  document.getElementById('doc-stats').innerHTML = `
+function updateDocStats(){
+  const docs=cachedDocs;
+  document.getElementById('doc-stats').innerHTML=`
     <div class="sc"><div class="sc-val">${docs.length}</div><div class="sc-lbl">Total</div></div>
     <div class="sc"><div class="sc-val">${docs.filter(d=>d.type==='Legal').length}</div><div class="sc-lbl">Legal</div></div>
     <div class="sc"><div class="sc-val">${docs.filter(d=>d.type==='Official').length}</div><div class="sc-lbl">Official</div></div>
     <div class="sc"><div class="sc-val">${docs.filter(d=>d.type==='Academic').length}</div><div class="sc-lbl">Academic</div></div>`;
 }
 
-// ══════════════════════════
+async function openDocModal(id){
+  editId=id||null;
+  document.getElementById('dm-err').style.display='none';
+  if(id){
+    const d=cachedDocs.find(x=>x.id===id);
+    document.getElementById('doc-modal-title').textContent='Edit Document';
+    document.getElementById('dm-ref').value=d.ref;
+    document.getElementById('dm-date').value=d.date;
+    document.getElementById('dm-client').value=d.client;
+    document.getElementById('dm-docname').value=d.docname||'';
+    document.getElementById('dm-type').value=d.type;
+    document.getElementById('dm-lang').value=d.lang||'Urdu to English';
+    document.getElementById('dm-notes').value=d.notes||'';
+  } else {
+    document.getElementById('doc-modal-title').textContent='Add Completed Document';
+    document.getElementById('dm-ref').value=nextRef(cachedDocs);
+    document.getElementById('dm-date').value=new Date().toISOString().split('T')[0];
+    document.getElementById('dm-client').value='';
+    document.getElementById('dm-docname').value='';
+    document.getElementById('dm-notes').value='';
+  }
+  document.getElementById('doc-modal').classList.add('open');
+}
+function closeDocModal(){document.getElementById('doc-modal').classList.remove('open');}
+
+async function saveDoc(){
+  const ref=document.getElementById('dm-ref').value.trim().toUpperCase();
+  const date=document.getElementById('dm-date').value;
+  const client=document.getElementById('dm-client').value.trim();
+  const docname=document.getElementById('dm-docname').value.trim();
+  const type=document.getElementById('dm-type').value;
+  const lang=document.getElementById('dm-lang').value;
+  const notes=document.getElementById('dm-notes').value.trim();
+  const err=document.getElementById('dm-err');
+  const saveBtn=document.getElementById('doc-save-btn');
+
+  if(!ref||!date||!client||!docname){
+    err.style.display='block'; err.textContent='Reference, date, client name and document name are all required.'; return;
+  }
+  if(!/^TSD-\d{4}-\d{2}$/.test(ref)){
+    err.style.display='block'; err.textContent='Format must be TSD-0001-26'; return;
+  }
+  if(cachedDocs.find(d=>d.ref===ref&&d.id!==editId)){
+    err.style.display='block'; err.textContent='This reference number already exists.'; return;
+  }
+
+  saveBtn.textContent='Saving…'; saveBtn.disabled=true;
+  const current=await jbinGet();
+  if(editId){
+    current.docs=current.docs.map(d=>d.id===editId?{...d,ref,date,client,docname,type,lang,notes}:d);
+  } else {
+    current.docs.unshift({id:Date.now().toString(),ref,date,client,docname,type,lang,notes});
+  }
+  await jbinSet(current);
+  cachedDocs=current.docs;
+  saveBtn.textContent='Save Document'; saveBtn.disabled=false;
+  closeDocModal();
+  renderDocs();
+  updateDocStats();
+}
+
+async function deleteDoc(id){
+  if(!confirm('Delete this record? It will no longer be verifiable on the website.')) return;
+  const current=await jbinGet();
+  current.docs=current.docs.filter(d=>d.id!==id);
+  await jbinSet(current);
+  cachedDocs=current.docs;
+  renderDocs();
+  updateDocStats();
+}
+
+// ══════════════════════════════════════
 //  REQUESTS
-// ══════════════════════════
-let viewingId = null;
+// ══════════════════════════════════════
+let viewingId=null, cachedReqs=[];
+
+async function loadRequests(){
+  document.getElementById('req-tbody').innerHTML='<tr class="loading-row"><td colspan="8">Loading requests…</td></tr>';
+  _cache=null; // force fresh fetch
+  const {requests}=await jbinGet();
+  cachedReqs=requests||[];
+  renderRequests();
+  updateReqStats();
+}
 
 function renderRequests(){
-  const search = document.getElementById('req-search').value.toLowerCase();
-  const sf     = document.getElementById('req-status-f').value;
-  let reqs = getReqs();
-  if(search) reqs = reqs.filter(r => (r.name+r.email+(r.whatsapp||'')).toLowerCase().includes(search));
-  if(sf)     reqs = reqs.filter(r => r.status === sf);
-  const tb = document.getElementById('req-tbody');
+  const search=document.getElementById('req-search').value.toLowerCase();
+  const sf=document.getElementById('req-status-f').value;
+  let reqs=[...cachedReqs];
+  if(search) reqs=reqs.filter(r=>(r.name+r.email+(r.whatsapp||'')).toLowerCase().includes(search));
+  if(sf) reqs=reqs.filter(r=>r.status===sf);
+  const tb=document.getElementById('req-tbody');
   if(!reqs.length){
-    tb.innerHTML = `<tr><td colspan="8"><div class="empty">
-      No requests yet.<br>
-      When a client submits the contact form on your website,<br>
-      it appears here automatically.
-    </div></td></tr>`;
+    tb.innerHTML=`<tr><td colspan="8"><div class="empty">No requests yet.<br>When a client submits the contact form it appears here automatically.</div></td></tr>`;
     return;
   }
-  tb.innerHTML = reqs.map(r => {
-    const bc = r.status==='New' ? 'b-new' : r.status==='In Progress' ? 'b-prog' : 'b-done';
-    const wa = r.whatsapp
-      ? `<a href="https://wa.me/${r.whatsapp.replace(/\D/g,'')}" target="_blank" style="color:var(--green)">${r.whatsapp}</a>`
-      : '<span style="color:var(--gm)">—</span>';
+  tb.innerHTML=reqs.map(r=>{
+    const bc=r.status==='New'?'b-new':r.status==='In Progress'?'b-prog':'b-done';
+    const wa=r.whatsapp
+      ?`<a href="https://wa.me/${r.whatsapp.replace(/\D/g,'')}" target="_blank" style="color:var(--green)">${r.whatsapp}</a>`
+      :'<span style="color:var(--gm)">—</span>';
     return `<tr>
       <td style="font-size:0.71rem;white-space:nowrap">${r.date||'—'}</td>
       <td>${r.name||'—'}</td>
@@ -470,26 +489,24 @@ function renderRequests(){
 }
 
 function updateReqStats(){
-  const reqs = getReqs();
-  const nw = reqs.filter(r => r.status==='New').length;
-  const ip = reqs.filter(r => r.status==='In Progress').length;
-  const dn = reqs.filter(r => r.status==='Completed').length;
-  document.getElementById('req-stats').innerHTML = `
+  const reqs=cachedReqs;
+  const nw=reqs.filter(r=>r.status==='New').length;
+  const ip=reqs.filter(r=>r.status==='In Progress').length;
+  const dn=reqs.filter(r=>r.status==='Completed').length;
+  document.getElementById('req-stats').innerHTML=`
     <div class="sc"><div class="sc-val">${reqs.length}</div><div class="sc-lbl">Total</div></div>
     <div class="sc"><div class="sc-val" style="color:var(--amber)">${nw}</div><div class="sc-lbl">New</div></div>
     <div class="sc"><div class="sc-val" style="color:var(--green)">${ip}</div><div class="sc-lbl">In Progress</div></div>
     <div class="sc"><div class="sc-val" style="color:var(--gm)">${dn}</div><div class="sc-lbl">Completed</div></div>`;
-  document.getElementById('new-badge').textContent = nw ? ` (${nw})` : '';
+  document.getElementById('new-badge').textContent=nw?` (${nw})`:'';
 }
 
 function viewReq(id){
-  viewingId = id;
-  const r = getReqs().find(x => x.id === id);
+  viewingId=id;
+  const r=cachedReqs.find(x=>x.id===id);
   if(!r) return;
-  const wa = r.whatsapp
-    ? `<a href="https://wa.me/${r.whatsapp.replace(/\D/g,'')}" target="_blank">${r.whatsapp}</a>`
-    : '—';
-  document.getElementById('req-detail').innerHTML = `
+  const wa=r.whatsapp?`<a href="https://wa.me/${r.whatsapp.replace(/\D/g,'')}" target="_blank">${r.whatsapp}</a>`:'—';
+  document.getElementById('req-detail').innerHTML=`
     <div><div class="det-l">Name</div><div class="det-v">${r.name||'—'}</div></div>
     <div><div class="det-l">Email</div><div class="det-v"><a href="mailto:${r.email}">${r.email||'—'}</a></div></div>
     <div><div class="det-l">WhatsApp</div><div class="det-v">${wa}</div></div>
@@ -498,15 +515,11 @@ function viewReq(id){
     <div><div class="det-l">Language</div><div class="det-v">${r.lang||'—'}</div></div>
     <div><div class="det-l">Status</div><div class="det-v">${r.status}</div></div>
     <div><div class="det-l">Received</div><div class="det-v">${r.date||'—'}</div></div>`;
-  document.getElementById('req-msg').textContent = r.message || 'No message.';
-  const done = r.status === 'Completed';
-  document.getElementById('btn-prog').style.display = done ? 'none' : 'block';
-  document.getElementById('btn-done').style.display = done ? 'none' : 'block';
-  // Auto-mark as In Progress when opened
-  if(r.status === 'New'){
-    saveReqs(getReqs().map(x => x.id === id ? {...x, status:'In Progress'} : x));
-    updateReqStats();
-  }
+  document.getElementById('req-msg').textContent=r.message||'No message.';
+  const done=r.status==='Completed';
+  document.getElementById('btn-prog').style.display=done?'none':'block';
+  document.getElementById('btn-done').style.display=done?'none':'block';
+  if(r.status==='New') _updateReqStatus(id,'In Progress');
   document.getElementById('req-modal').classList.add('open');
 }
 
@@ -516,28 +529,36 @@ function closeReqModal(){
   updateReqStats();
 }
 
-function setStatus(s){
-  saveReqs(getReqs().map(r => r.id === viewingId ? {...r, status:s} : r));
+async function setReqStatus(s){
+  await _updateReqStatus(viewingId,s);
   closeReqModal();
 }
 
-function clearCompleted(){
+async function _updateReqStatus(id,status){
+  cachedReqs=cachedReqs.map(r=>r.id===id?{...r,status}:r);
+  const current=await jbinGet();
+  current.requests=cachedReqs;
+  await jbinSet(current);
+}
+
+async function clearCompleted(){
   if(!confirm('Remove all completed requests?')) return;
-  saveReqs(getReqs().filter(r => r.status !== 'Completed'));
+  cachedReqs=cachedReqs.filter(r=>r.status!=='Completed');
+  const current=await jbinGet();
+  current.requests=cachedReqs;
+  await jbinSet(current);
   renderRequests();
   updateReqStats();
 }
 
 // ── Close modals on overlay click ──
-document.getElementById('doc-modal').addEventListener('click', function(e){ if(e.target===this) closeDocModal(); });
-document.getElementById('req-modal').addEventListener('click', function(e){ if(e.target===this) closeReqModal(); });
+document.getElementById('doc-modal').addEventListener('click',function(e){if(e.target===this)closeDocModal();});
+document.getElementById('req-modal').addEventListener('click',function(e){if(e.target===this)closeReqModal();});
 
 // ── Init ──
 async function init(){
-  renderDocs();
-  updateDocStats();
-  renderRequests();
-  updateReqStats();
+  await loadDocs();
+  await loadRequests();
 }
 </script>
 </body>
